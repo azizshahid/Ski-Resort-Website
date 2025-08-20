@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alpine Adventures - Winter Resort</title>
+    <link rel="stylesheet" href="./Styles.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- AOS CSS -->
+    <!-- AOS Animation CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Sticky Vertical Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar-content">
+        <div class="logo">
+          <i class="fas fa-mountain"></i>
+          <span class="logo-text">ALPINE</span>
+        </div>
+
+        <ul class="nav-menu">
+          <li>
+            <a href="#hero" data-tooltip="Home"> <i class="fas fa-home"></i></a>
+          </li>
+          <li>
+            <a href="#activities" data-tooltip="Activities"
+              ><i class="fas fa-skiing"></i
+            ></a>
+          </li>
+          <li>
+            <a href="#experiences" data-tooltip="Experiences"
+              ><i class="fas fa-star"></i
+            ></a>
+          </li>
+          <li>
+            <a href="#testimonials" data-tooltip="Testimonials"
+              ><i class="fas fa-comments"></i
+            ></a>
+          </li>
+          <li>
+            <a href="#contact" data-tooltip="Contact"
+              ><i class="fas fa-envelope"></i
+            ></a>
+          </li>
+        </ul>
+
+        <div class="social-icons">
+          <a href="#" data-tooltip="Facebook"
+            ><i class="fab fa-facebook"></i
+          ></a>
+          <a href="#" data-tooltip="Instagram"
+            ><i class="fab fa-instagram"></i
+          ></a>
+          <a href="#" data-tooltip="Twitter"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Hero Section -->
+      <section id="hero" class="hero">
+        <div class="hero-content">
+          <div class="hero-text" data-aos="fade-right">
+            <h1 class="hero-title">Your Winter Adventure Starts Here</h1>
+            <p class="hero-description">
+              Experience the thrill of pristine slopes, luxury accommodations,
+              and unforgettable memories in our world-class winter resort.
+            </p>
+            <button class="cta-button primary">Explore Packages</button>
+          </div>
+          <div class="hero-visual" data-aos="fade-left">
+            <img
+              src="./assets/images/hero-image/Flux_Dev_Action_shot_of_a_skier_in_vibrant_ski_gear_orange_red_0.jpg"
+              alt="Skier on mountain"
+              class="hero-image"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- Experience Highlights -->
+      <section
+        id="experiences"
+        class="experiences"
+        data-aos="fade-right"
+        data-aos-delay="100"
+      >
+        <div class="container">
+          <h2 class="section-title">Winter Experiences</h2>
+          <div class="experience-cards">
+            <div class="experience-card">
+              <div class="card-icon">
+                <i class="fas fa-skiing"></i>
+              </div>
+              <h3>Ski Trails</h3>
+              <p>Over 50 pristine trails for all skill levels</p>
+              <a href="#" class="learn-more">Learn More</a>
+            </div>
+
+            <div class="experience-card">
+              <div class="card-icon">
+                <i class="fas fa-home"></i>
+              </div>
+              <h3>Luxury Cabins</h3>
+              <p>Cozy mountain retreats with stunning views</p>
+              <a href="#" class="learn-more">Learn More</a>
+            </div>
+
+            <div class="experience-card">
+              <div class="card-icon">
+                <i class="fas fa-utensils"></i>
+              </div>
+              <h3>Alpine Dining</h3>
+              <p>World-class cuisine with mountain ambiance</p>
+              <a href="#" class="learn-more">Learn More</a>
+            </div>
+
+            <div class="experience-card">
+              <div class="card-icon">
+                <i class="fas fa-spa"></i>
+              </div>
+              <h3>Mountain Spa</h3>
+              <p>Relax and rejuvenate after your adventures</p>
+              <a href="#" class="learn-more">Learn More</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Activities Section -->
+      <section id="activities" class="activities">
+        <div class="container">
+          <h2 class="section-title">Adventure Activities</h2>
+          <div class="activities-grid">
+            <div class="activity-card main-activity" data-aos="zoom-in" data-aos-delay="0">
+              <img
+                src="./assets/images/adventure-activities/snow-boarding.jpg"
+                alt="Top Pick Activity"
+              />
+              <div class="card-overlay">
+                <h3>Alpine Snowboarding</h3>
+                <p>Our most popular winter adventure</p>
+                <span class="featured-badge">Top Pick</span>
+              </div>
+            </div>
+
+            <div class="activity-card" data-aos="zoom-in" data-aos-delay="150">
+              <img
+                src="./assets/images/adventure-activities/snowmobile-ride.jpg"
+                alt="Snowmobile Rides"
+              />
+              <div class="card-overlay">
+                <h4>Snowmobile Rides</h4>
+              </div>
+            </div>
+
+            <div class="activity-card" data-aos="zoom-in" data-aos-delay="300">
+              <img
+                src="./assets/images/adventure-activities/night-skiing.jpg"
+                alt="Night Skiing"
+              />
+              <div class="card-overlay">
+                <h4>Night Skiing</h4>
+              </div>
+            </div>
+
+            <div class="activity-card" data-aos="zoom-in" data-aos-delay="450">
+              <img
+                src="./assets/images/adventure-activities/ice-climbing.jpg"
+                alt="Ice Climbing"
+              />
+              <div class="card-overlay">
+                <h4>Ice Climbing</h4>
+              </div>
+            </div>
+
+            <div class="activity-card" data-aos="zoom-in" data-aos-delay="600">
+              <img
+                src="./assets/images/adventure-activities/dog-sledgging.jpg"
+                alt="Dog Sledding"
+              />
+              <div class="card-overlay">
+                <h4>Dog Sledding</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonials -->
+      <section id="testimonials" class="testimonials" data-aos="fade-up">
+        <div class="container">
+          <h2 class="section-title">What Our Guests Say</h2>
+          <div class="testimonials-grid">
+            <div class="testimonial-card" data-aos="slide-up" data-aos-delay="0">
+              <img
+                src="/placeholder.svg?height=80&width=80"
+                alt="Sarah Johnson"
+                class="testimonial-avatar"
+              />
+              <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <p>
+                "Absolutely incredible experience! The slopes were perfect and
+                the staff was amazing."
+              </p>
+              <h4>Sarah Johnson</h4>
+            </div>
+
+            <div class="testimonial-card offset" data-aos="slide-up" data-aos-delay="200">
+              <img
+                src="/placeholder.svg?height=80&width=80"
+                alt="Mike Chen"
+                class="testimonial-avatar"
+              />
+              <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <p>
+                "Best winter vacation ever! The luxury cabins exceeded all
+                expectations."
+              </p>
+              <h4>Mike Chen</h4>
+            </div>
+
+            <div class="testimonial-card" data-aos="slide-up" data-aos-delay="400">
+              <img
+                src="/placeholder.svg?height=80&width=80"
+                alt="Emma Davis"
+                class="testimonial-avatar"
+              />
+              <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+              <p>
+                "Perfect family destination. Activities for everyone and
+                breathtaking views!"
+              </p>
+              <h4>Emma Davis</h4>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Call to Action -->
+      <section class="cta-section">
+        <div class="container">
+          <h2>Ready to Book Your Adventure?</h2>
+          <p>Don't miss out on the winter experience of a lifetime</p>
+          <button class="cta-button glow">Reserve Now</button>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer id="contact" data-aos="fade-up" class="footer">
+        <div class="container">
+          <div class="footer-content">
+            <div class="footer-section">
+              <h3>Stay Connected</h3>
+              <div class="newsletter">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  class="newsletter-input"
+                />
+                <button class="newsletter-btn">Subscribe</button>
+              </div>
+            </div>
+
+            <div class="footer-section">
+              <h3>Quick Links</h3>
+              <ul>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#experiences">Experiences</a></li>
+                <li><a href="#activities">Activities</a></li>
+                <li><a href="#testimonials">Reviews</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-section">
+              <h3>Location</h3>
+              <div class="location-info">
+                <i class="fas fa-map-marker-alt"></i>
+                <p>Alpine Resort<br />Mountain View, CO 80424</p>
+              </div>
+            </div>
+
+            <div class="footer-section">
+              <h3>Follow Us</h3>
+              <div class="footer-social">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-bottom">
+            <p>&copy; 2024 Alpine Adventures. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 1000,
+        once: true,
+        offset: 100,
+      });
+    </script>
+    <script src="./Index.js"></script>
+  </body>
+</html>
