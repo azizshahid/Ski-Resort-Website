@@ -13,60 +13,44 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <!-- AOS CSS -->
-    <!-- AOS Animation CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css"
-      rel="stylesheet"
-    />
   </head>
   <body>
     <!-- Sticky Vertical Sidebar -->
-    <nav class="sidebar">
-      <div class="sidebar-content">
-        <div class="logo">
-          <i class="fas fa-mountain"></i>
-          <span class="logo-text">ALPINE</span>
+    <nav class="top-nav nav__menu">
+      <div class="top-nav-inner">
+        <!-- Left: Logo + Navigation -->
+        <div class="menu-nav">
+          <!-- Brand -->
+          <div class="logo" onclick="location.href='#hero'">
+            <i class="fas fa-mountain"></i>
+            <span class="logo-text horizontal">ALPINE</span>
+          </div>
+
+          <!-- Navigation -->
+          <ul class="nav-menu horizontal">
+            <li>
+              <a href="#experiences" data-tooltip="Experiences">
+                <i class="fas fa-star"></i>
+                <span class="nav-text">Experiences</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="#activities" data-tooltip="Activities">
+                <i class="fas fa-skiing"></i>
+                <span class="nav-text">Activities</span>
+              </a>
+            </li>
+          </ul>
         </div>
 
-        <ul class="nav-menu">
-          <li>
-            <a href="#hero" data-tooltip="Home"> <i class="fas fa-home"></i></a>
-          </li>
-          <li>
-            <a href="#activities" data-tooltip="Activities"
-              ><i class="fas fa-skiing"></i
-            ></a>
-          </li>
-          <li>
-            <a href="#experiences" data-tooltip="Experiences"
-              ><i class="fas fa-star"></i
-            ></a>
-          </li>
-          <li>
-            <a href="#testimonials" data-tooltip="Testimonials"
-              ><i class="fas fa-comments"></i
-            ></a>
-          </li>
-          <li>
-            <a href="#contact" data-tooltip="Contact"
-              ><i class="fas fa-envelope"></i
-            ></a>
-          </li>
-        </ul>
+        <!-- Right: Actions -->
+        <div class="nav-actions">
+          <button class="login-btn" aria-label="Login">
+            <i class="fas fa-user"></i>
+          </button>
 
-        <div class="social-icons">
-          <a href="#" data-tooltip="Facebook"
-            ><i class="fab fa-facebook"></i
-          ></a>
-          <a href="#" data-tooltip="Instagram"
-            ><i class="fab fa-instagram"></i
-          ></a>
-          <a href="#" data-tooltip="Twitter"><i class="fab fa-twitter"></i></a>
+          <button class="book-btn">Book Now</button>
         </div>
       </div>
     </nav>
@@ -76,7 +60,7 @@
       <!-- Hero Section -->
       <section id="hero" class="hero">
         <div class="hero-content">
-          <div class="hero-text" data-aos="fade-right">
+          <div class="hero-text reveal">
             <h1 class="hero-title">Your Winter Adventure Starts Here</h1>
             <p class="hero-description">
               Experience the thrill of pristine slopes, luxury accommodations,
@@ -84,7 +68,7 @@
             </p>
             <button class="cta-button primary">Explore Packages</button>
           </div>
-          <div class="hero-visual" data-aos="fade-left">
+          <div class="hero-visual reveal">
             <img
               src="./assets/images/hero-image/Flux_Dev_Action_shot_of_a_skier_in_vibrant_ski_gear_orange_red_0.jpg"
               alt="Skier on mountain"
@@ -95,60 +79,62 @@
       </section>
 
       <!-- Experience Highlights -->
-      <section
-        id="experiences"
-        class="experiences"
-        data-aos="fade-right"
-        data-aos-delay="100"
-      >
+      <section id="experiences" class="experiences">
         <div class="container">
           <h2 class="section-title">Winter Experiences</h2>
-          <div class="experience-cards">
-            <div class="experience-card">
-              <div class="card-icon">
-                <i class="fas fa-skiing"></i>
+          <div class="experience-viewport">
+            <div class="experience-track reveal stagger">
+              <div class="experience-card" style="--i: 0">
+                <div class="card-icon">
+                  <i class="fas fa-skiing"></i>
+                </div>
+                <h3>Ski Trails</h3>
+                <p>Over 50 pristine trails for all skill levels</p>
+                <a href="#" class="learn-more">Learn More</a>
               </div>
-              <h3>Ski Trails</h3>
-              <p>Over 50 pristine trails for all skill levels</p>
-              <a href="#" class="learn-more">Learn More</a>
-            </div>
 
-            <div class="experience-card">
-              <div class="card-icon">
-                <i class="fas fa-home"></i>
+              <div class="experience-card" style="--i: 0">
+                <div class="card-icon">
+                  <i class="fas fa-home"></i>
+                </div>
+                <h3>Luxury Cabins</h3>
+                <p>Cozy mountain retreats with stunning views</p>
+                <a href="#" class="learn-more">Learn More</a>
               </div>
-              <h3>Luxury Cabins</h3>
-              <p>Cozy mountain retreats with stunning views</p>
-              <a href="#" class="learn-more">Learn More</a>
-            </div>
 
-            <div class="experience-card">
-              <div class="card-icon">
-                <i class="fas fa-utensils"></i>
+              <div class="experience-card" style="--i: 0">
+                <div class="card-icon">
+                  <i class="fas fa-utensils"></i>
+                </div>
+                <h3>Alpine Dining</h3>
+                <p>World-class cuisine with mountain ambiance</p>
+                <a href="#" class="learn-more">Learn More</a>
               </div>
-              <h3>Alpine Dining</h3>
-              <p>World-class cuisine with mountain ambiance</p>
-              <a href="#" class="learn-more">Learn More</a>
-            </div>
 
-            <div class="experience-card">
-              <div class="card-icon">
-                <i class="fas fa-spa"></i>
+              <div class="experience-card" style="--i: 0">
+                <div class="card-icon">
+                  <i class="fas fa-spa"></i>
+                </div>
+                <h3>Mountain Spa</h3>
+                <p>Relax and rejuvenate after your adventures</p>
+                <a href="#" class="learn-more">Learn More</a>
               </div>
-              <h3>Mountain Spa</h3>
-              <p>Relax and rejuvenate after your adventures</p>
-              <a href="#" class="learn-more">Learn More</a>
             </div>
           </div>
+
+          <!-- Pagination dots -->
+          <div class="experience-dots"></div>
         </div>
       </section>
 
       <!-- Activities Section -->
-      <section id="activities" class="activities">
+
+      <section id="activities" class="activities reveal stagger">
         <div class="container">
           <h2 class="section-title">Adventure Activities</h2>
-          <div class="activities-grid">
-            <div class="activity-card main-activity" data-aos="zoom-in" data-aos-delay="0">
+
+          <div class="activities-track">
+            <div class="activity-card main-activity">
               <img
                 src="./assets/images/adventure-activities/snow-boarding.jpg"
                 alt="Top Pick Activity"
@@ -160,7 +146,7 @@
               </div>
             </div>
 
-            <div class="activity-card" data-aos="zoom-in" data-aos-delay="150">
+            <div class="activity-card">
               <img
                 src="./assets/images/adventure-activities/snowmobile-ride.jpg"
                 alt="Snowmobile Rides"
@@ -170,7 +156,7 @@
               </div>
             </div>
 
-            <div class="activity-card" data-aos="zoom-in" data-aos-delay="300">
+            <div class="activity-card">
               <img
                 src="./assets/images/adventure-activities/night-skiing.jpg"
                 alt="Night Skiing"
@@ -180,7 +166,7 @@
               </div>
             </div>
 
-            <div class="activity-card" data-aos="zoom-in" data-aos-delay="450">
+            <div class="activity-card">
               <img
                 src="./assets/images/adventure-activities/ice-climbing.jpg"
                 alt="Ice Climbing"
@@ -190,7 +176,7 @@
               </div>
             </div>
 
-            <div class="activity-card" data-aos="zoom-in" data-aos-delay="600">
+            <div class="activity-card">
               <img
                 src="./assets/images/adventure-activities/dog-sledgging.jpg"
                 alt="Dog Sledding"
@@ -200,15 +186,18 @@
               </div>
             </div>
           </div>
+
+          <!-- Pagination dots -->
+          <div class="activities-dots"></div>
         </div>
       </section>
 
       <!-- Testimonials -->
-      <section id="testimonials" class="testimonials" data-aos="fade-up">
+      <section id="testimonials" class="testimonials reveal stagger">
         <div class="container">
           <h2 class="section-title">What Our Guests Say</h2>
           <div class="testimonials-grid">
-            <div class="testimonial-card" data-aos="slide-up" data-aos-delay="0">
+            <div class="testimonial-card">
               <img
                 src="/placeholder.svg?height=80&width=80"
                 alt="Sarah Johnson"
@@ -228,7 +217,7 @@
               <h4>Sarah Johnson</h4>
             </div>
 
-            <div class="testimonial-card offset" data-aos="slide-up" data-aos-delay="200">
+            <div class="testimonial-card offset">
               <img
                 src="/placeholder.svg?height=80&width=80"
                 alt="Mike Chen"
@@ -248,7 +237,7 @@
               <h4>Mike Chen</h4>
             </div>
 
-            <div class="testimonial-card" data-aos="slide-up" data-aos-delay="400">
+            <div class="testimonial-card">
               <img
                 src="/placeholder.svg?height=80&width=80"
                 alt="Emma Davis"
@@ -272,7 +261,7 @@
       </section>
 
       <!-- Call to Action -->
-      <section class="cta-section">
+      <section class="cta-section reveal stagger" id="contact">
         <div class="container">
           <h2>Ready to Book Your Adventure?</h2>
           <p>Don't miss out on the winter experience of a lifetime</p>
@@ -281,7 +270,7 @@
       </section>
 
       <!-- Footer -->
-      <footer id="contact" data-aos="fade-up" class="footer">
+      <footer class="footer reveal stagger">
         <div class="container">
           <div class="footer-content">
             <div class="footer-section">
@@ -309,8 +298,8 @@
             <div class="footer-section">
               <h3>Location</h3>
               <div class="location-info">
-                <i class="fas fa-map-marker-alt"></i>
-                <p>Alpine Resort<br />Mountain View, CO 80424</p>
+                <!-- <i class="fas fa-map-marker-alt"></i> -->
+                <p>Alpine Resort Mountain View, CO 80424</p>
               </div>
             </div>
 
@@ -331,14 +320,6 @@
         </div>
       </footer>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-    <script>
-      AOS.init({
-        duration: 1000,
-        once: true,
-        offset: 100,
-      });
-    </script>
     <script src="./Index.js"></script>
   </body>
 </html>

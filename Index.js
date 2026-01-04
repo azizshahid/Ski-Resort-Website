@@ -13,26 +13,32 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
 });
 
 // Active navigation highlighting
-function updateActiveNav() {
-  const sections = document.querySelectorAll("section[id]");
-  const navLinks = document.querySelectorAll(".nav-menu a");
+const sections = document.querySelectorAll("section[id]");
 
-  let current = "";
-  sections.forEach((section) => {
-    const sectionTop = section.offsetTop;
-    const sectionHeight = section.clientHeight;
-    if (scrollY >= sectionTop - 200) {
-      current = section.getAttribute("id");
-    }
-  });
+function scrollActive() {
+  const scrollY = window.scrollY;
 
-  navLinks.forEach((link) => {
-    link.classList.remove("active");
-    if (link.getAttribute("href") === `#${current}`) {
-      link.classList.add("active");
+  sections.forEach((current) => {
+    const sectionHeight = current.offsetHeight;
+    const sectionTop = current.offsetTop - 80; // adjust based on your navbar height
+    const sectionId = current.getAttribute("id");
+
+    const navLink = document.querySelector(
+      `.nav__menu a[href="#${sectionId}"]`
+    );
+
+    if (!navLink) return;
+
+    if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+      navLink.classList.add("active-link");
+    } else {
+      navLink.classList.remove("active-link");
     }
   });
 }
+
+//window.addEventListener("scroll", scrollActive);
+//scrollActive();
 
 // Scroll animations
 function animateOnScroll() {
@@ -59,26 +65,116 @@ function parallaxEffect() {
   }
 }
 
+(function () {
+  const track = document.querySelector(".experience-track");
+  const dotsContainer = document.querySelector(".experience-dots");
+
+  if (!track || !dotsContainer) return;
+
+  const cards = Array.from(track.children);
+  const cardWidth = cards[0].offsetWidth + 30;
+
+  // Create dots
+  cards.forEach((_, index) => {
+    const dot = document.createElement("span");
+    dot.className = "experience-dot";
+    if (index === 0) dot.classList.add("active");
+
+    dot.addEventListener("click", () => {
+      track.scrollTo({
+        left: index * cardWidth,
+        behavior: "smooth",
+      });
+    });
+
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = dotsContainer.querySelectorAll(".experience-dot");
+
+  // Update active dot on scroll
+  track.addEventListener("scroll", () => {
+    const index = Math.round(track.scrollLeft / cardWidth);
+    dots.forEach((dot) => dot.classList.remove("active"));
+    if (dots[index]) dots[index].classList.add("active");
+  });
+})();
+
+(function () {
+  const track = document.querySelector(".activities-track");
+  const dotsContainer = document.querySelector(".activities-dots");
+
+  if (!track || !dotsContainer) return;
+
+  const cards = Array.from(track.children);
+  const cardWidth = cards[0].offsetWidth + 30;
+
+  // Create dots
+  cards.forEach((_, index) => {
+    const dot = document.createElement("span");
+    dot.className = "activities-dot";
+    if (index === 0) dot.classList.add("active");
+
+    dot.addEventListener("click", () => {
+      track.scrollTo({
+        left: index * cardWidth,
+        behavior: "smooth",
+      });
+    });
+
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = dotsContainer.querySelectorAll(".activities-dot");
+
+  // Sync dots on scroll
+  track.addEventListener("scroll", () => {
+    const index = Math.round(track.scrollLeft / cardWidth);
+    dots.forEach((dot) => dot.classList.remove("active"));
+    if (dots[index]) dots[index].classList.add("active");
+  });
+})();
+
+
+(function () {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.2 }
+  );
+
+  document.querySelectorAll(".reveal").forEach((el) => {
+    observer.observe(el);
+  });
+})();
+
+
 // Mobile menu toggle
 function initMobileMenu() {
   const sidebar = document.querySelector(".sidebar");
   const menuToggle = document.createElement("button");
   menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
   menuToggle.className = "mobile-menu-toggle";
-  menuToggle.style.cssText = `
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        z-index: 1001;
-        background: var(--accent-color);
-        color: white;
-        border: none;
-        padding: 10px;
-        border-radius: 5px;
-        font-size: 18px;
-        cursor: pointer;
-        display: none;
-    `;
+  // menuToggle.style.cssText = `
+  //       position: fixed;
+  //       top: 20px;
+  //       left: 20px;
+  //       z-index: 1001;
+  //       background: var(--accent-color);
+  //       color: white;
+  //       border: none;
+  //       padding: 10px;
+  //       border-radius: 5px;
+  //       font-size: 18px;
+  //       cursor: pointer;
+  //       display: none;
+  //   `;
 
   document.body.appendChild(menuToggle);
 
@@ -108,7 +204,7 @@ function initMobileMenu() {
   });
 
   checkMobile();
-  window.addEventListener("resize", checkMobile);
+  //window.addEventListener("resize", checkMobile);
 }
 
 // Newsletter subscription
@@ -207,7 +303,7 @@ function initActivityCards() {
 
   activityCards.forEach((card) => {
     card.addEventListener("mouseenter", () => {
-      card.style.transform = "scale(1.02) rotateY(5deg)";
+      card.style.transform = "scale(1.03)";
     });
 
     card.addEventListener("mouseleave", () => {
@@ -234,11 +330,11 @@ function initTestimonialCards() {
 }
 
 // Scroll event listeners
-window.addEventListener("scroll", () => {
-  updateActiveNav();
-  animateOnScroll();
-  parallaxEffect();
-});
+//window.addEventListener("scroll", () => {
+//updateActiveNav();
+//animateOnScroll();
+//parallaxEffect();
+//});
 
 // Initialize everything when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
@@ -255,10 +351,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Resize event listener
-window.addEventListener("resize", () => {
-  // Recalculate animations on resize
-  animateOnScroll();
-});
+//window.addEventListener("resize", () => {
+// Recalculate animations on resize
+//animateOnScroll();
+//});
 
 // Performance optimization: throttle scroll events
 function throttle(func, wait) {
