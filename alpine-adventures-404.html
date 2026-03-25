@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page Not Found – Alpine Adventures</title>
+
+    <!-- Existing project stylesheet -->
+    <link rel="stylesheet" href="./Styles.css" />
+
+    <!-- 404-only new rules (add to project folder) -->
+    <link rel="stylesheet" href="./alpine-adventures-404.css" />
+
+    <!-- Same fonts already loaded in the project -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <!-- page-404-body adds the fade-in via 404.css (Styles.css doesn't set body opacity) -->
+  <body class="page-404-body">
+
+    <!-- Snow particles canvas — .snow-canvas from 404.css -->
+    <canvas class="snow-canvas" id="snowCanvas"></canvas>
+
+    <!-- ═══════════════════════════════════════════════════
+         NAV — exact same structure & classes as Index.html
+         ═══════════════════════════════════════════════════ -->
+    <nav class="top-nav nav__menu">
+      <div class="top-nav-inner">
+
+        <!-- Logo — reuses .top-nav .logo from Styles.css -->
+        <div class="menu-nav">
+          <div class="logo" onclick="location.href='./Index.html'">
+            <i class="fas fa-mountain"></i>
+            <span class="logo-text horizontal">ALPINE</span>
+          </div>
+        </div>
+
+        <!-- Actions — reuses .nav-actions, .login-btn, .book-btn from Styles.css -->
+        <div class="nav-actions">
+          <button class="login-btn" aria-label="Login">
+            <i class="fas fa-user"></i>
+          </button>
+          <button class="book-btn" onclick="location.href='./Index.html'">
+            Book Now
+          </button>
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════
+         MAIN 404 CONTENT
+         Uses .page-404 and .error-* classes from 404.css
+         ═══════════════════════════════════════════════════ -->
+    <main class="main-content page-404">
+      <div class="container">
+        <div class="error-container">
+
+          <!-- Mountain SVG illustration — .mountain-graphic from 404.css -->
+          <svg class="mountain-graphic" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="100" cy="110" rx="90" ry="20" fill="rgba(135,206,235,0.08)"/>
+            <polygon points="50,100 100,30 150,100" fill="#242424" stroke="rgba(135,206,235,0.2)" stroke-width="1"/>
+            <polygon points="20,100 80,20 140,100" fill="#1a1a1a" stroke="rgba(135,206,235,0.35)" stroke-width="1.5"/>
+            <polygon points="80,20 65,60 95,60" fill="rgba(255,255,255,0.85)"/>
+            <circle cx="155" cy="25" r="2" fill="#ff6b6b" opacity="0.9"/>
+            <circle cx="165" cy="40" r="1.2" fill="#87ceeb" opacity="0.8"/>
+            <circle cx="40" cy="35" r="1.5" fill="#87ceeb" opacity="0.6"/>
+            <!-- Skier figure -->
+            <circle cx="112" cy="68" r="4" fill="#ff6b6b"/>
+            <line x1="112" y1="72" x2="108" y2="82" stroke="#ff6b6b" stroke-width="1.5"/>
+            <line x1="108" y1="82" x2="103" y2="85" stroke="#ff6b6b" stroke-width="1.5"/>
+            <line x1="108" y1="82" x2="113" y2="86" stroke="#ff6b6b" stroke-width="1.5"/>
+            <line x1="112" y1="74" x2="106" y2="78" stroke="#ff6b6b" stroke-width="1.5"/>
+            <line x1="112" y1="74" x2="118" y2="77" stroke="#ff6b6b" stroke-width="1.5"/>
+          </svg>
+
+          <!-- 404 number — .error-code from 404.css -->
+          <div class="error-code">404</div>
+
+          <!-- Tag chip — .error-tag-chip from 404.css -->
+          <div class="error-tag-chip">
+            <i class="fas fa-map-marked-alt"></i> Off The Trail
+          </div>
+
+          <!-- Title — .error-title from 404.css -->
+          <h1 class="error-title">
+            Looks Like You've Gone <span>Off-Piste</span>
+          </h1>
+
+          <!-- Description — .error-description from 404.css -->
+          <p class="error-description">
+            This trail doesn't exist on our mountain. The page you're looking for
+            may have been moved, buried under fresh powder, or never mapped out.
+            Time to find your way back to the lodge.
+          </p>
+
+          <!-- Divider — .error-divider from 404.css -->
+          <div class="error-divider">
+            <span class="error-divider-line"></span>
+            <i class="fas fa-skiing"></i>
+            <span class="error-divider-line right"></span>
+          </div>
+
+          <!-- Buttons — reuses existing .cta-button.primary + new .btn-outline-sky from 404.css -->
+          <div class="error-btn-group">
+            <a href="./Index.html" class="cta-button primary">
+              <i class="fas fa-home"></i>&nbsp; Back to Base Camp
+            </a>
+            <a href="./Index.html#activities" class="btn-outline-sky">
+              <i class="fas fa-skiing"></i>&nbsp; Explore Activities
+            </a>
+          </div>
+
+          <!-- Suggestion links — .error-suggestions from 404.css -->
+          <p class="error-suggestions">
+            Or check out
+            <a href="./Index.html#experiences">Experiences</a>,
+            <a href="./Index.html#activities">Activities</a>, or
+            <a href="./Index.html#contact">Contact Us</a>
+          </p>
+
+        </div>
+      </div>
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════
+         FOOTER — reuses .footer, .footer-bottom from Styles.css
+         ═══════════════════════════════════════════════════ -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-bottom">
+          <p>&copy; 2024 Alpine Adventures. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Page fade-in (handled by page-404-body + .loaded in 404.css)
+      window.addEventListener("load", () => {
+        document.body.classList.add("loaded");
+      });
+
+      // Snow particle animation
+      const canvas = document.getElementById("snowCanvas");
+      const ctx    = canvas.getContext("2d");
+      let flakes   = [];
+
+      function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener("resize", resize);
+
+      function createFlake() {
+        return {
+          x:       Math.random() * canvas.width,
+          y:       -10,
+          r:       Math.random() * 2.5 + 0.5,
+          speed:   Math.random() * 0.8 + 0.3,
+          drift:   (Math.random() - 0.5) * 0.4,
+          opacity: Math.random() * 0.5 + 0.2
+        };
+      }
+
+      // Pre-seed flakes across the screen
+      for (let i = 0; i < 80; i++) {
+        flakes.push({ ...createFlake(), y: Math.random() * canvas.height });
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        flakes.forEach((f, i) => {
+          ctx.beginPath();
+          ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255,255,255,${f.opacity})`;
+          ctx.fill();
+          f.y += f.speed;
+          f.x += f.drift;
+          if (f.y > canvas.height + 10) flakes[i] = createFlake();
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+    </script>
+  </body>
+</html>

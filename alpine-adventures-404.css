@@ -1,0 +1,203 @@
+/* =====================================================
+   Alpine Adventures — 404 Page Styles
+   Add this file to your project and link it AFTER Styles.css
+   Only contains new rules — reuses all existing variables & classes
+   ===================================================== */
+
+/* ── Page fade-in (Styles.css doesn't set body opacity, so we add it here) ── */
+body.page-404-body {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+body.page-404-body.loaded {
+  opacity: 1;
+}
+
+/* ── Snow canvas (fixed background layer) ── */
+.snow-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+}
+
+/* ── Page layout ── */
+.page-404 {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 20px 60px;
+  min-height: 100vh;
+}
+
+.error-container {
+  text-align: center;
+  max-width: 640px;
+}
+
+/* ── Mountain SVG illustration ── */
+.mountain-graphic {
+  width: 160px;
+  height: auto;
+  display: block;
+  margin: 0 auto 1.5rem;
+  animation: mountainFloat 4s ease-in-out infinite;
+}
+
+@keyframes mountainFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+/* ── Big 404 number with gradient text ── */
+.error-code {
+  font-size: clamp(7rem, 20vw, 11rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -6px;
+  background: linear-gradient(135deg, var(--white) 0%, var(--sky-blue) 50%, var(--accent-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.4rem;
+}
+
+/* ── Tag chip label ── */
+.error-tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 107, 107, 0.12);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  color: var(--accent-color);
+  padding: 6px 18px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 1.4rem;
+}
+
+/* ── Text ── */
+.error-title {
+  font-size: clamp(1.3rem, 4vw, 1.9rem);
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.error-title span {
+  color: var(--accent-color);
+}
+
+.error-description {
+  font-size: 0.97rem;
+  color: var(--warm-grey);
+  line-height: 1.8;
+  max-width: 460px;
+  margin: 0 auto 2.5rem;
+}
+
+/* ── Ski divider ── */
+.error-divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 300px;
+  margin: 0 auto 2.5rem;
+}
+
+.error-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(135, 206, 235, 0.4));
+}
+
+.error-divider-line.right {
+  background: linear-gradient(90deg, rgba(135, 206, 235, 0.4), transparent);
+}
+
+.error-divider i {
+  color: var(--sky-blue);
+  font-size: 0.85rem;
+}
+
+/* ── Button group ── */
+.error-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+}
+
+/* Secondary outlined button — complements existing .cta-button.primary */
+.btn-outline-sky {
+  background: transparent;
+  color: var(--sky-blue);
+  border: 1.5px solid rgba(135, 206, 235, 0.4);
+  padding: 13px 28px;
+  border-radius: 999px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-outline-sky:hover {
+  background: rgba(135, 206, 235, 0.1);
+  border-color: var(--sky-blue);
+  transform: translateY(-3px);
+}
+
+/* ── Suggestion links ── */
+.error-suggestions {
+  margin-top: 2.5rem;
+  font-size: 0.83rem;
+  color: #555;
+}
+
+.error-suggestions a {
+  color: var(--sky-blue);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.error-suggestions a:hover {
+  color: var(--accent-color);
+}
+
+/* ── Footer strip override (sits above z:0 snow canvas) ── */
+.footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .error-btn-group {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .error-btn-group a,
+  .error-btn-group button {
+    width: 100%;
+    justify-content: center;
+  }
+}
