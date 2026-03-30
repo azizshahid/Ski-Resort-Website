@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Packages — Alpine Adventures</title>
+    <link rel="stylesheet" href="./Styles.css" />
+    <link rel="stylesheet" href="./Styles-additions.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./Styles.css">
+    <link rel="stylesheet" href="./Styles-additions.css">
+    <style>
+      /* ─── PACKAGES PAGE — scoped additions only ───────────────────
+         All colours, fonts, radius values, shadows reference the
+         existing CSS variables. No values are re-invented here.
+      ─────────────────────────────────────────────────────────────── */
+
+      /* ── Toggle pill (Duration filter) ──────────────────────────── */
+      .pkg-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        background: var(--white-smoke);
+        border-radius: 50px;
+        padding: 6px;
+        width: fit-content;
+        margin: 0 auto 3.5rem;
+      }
+      .pkg-toggle-btn {
+        padding: 9px 28px;
+        border: none;
+        border-radius: 50px;
+        font-family: "Poppins", sans-serif;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        background: transparent;
+        color: var(--text-light);
+        transition: all 0.3s ease;
+        letter-spacing: 0.3px;
+      }
+      .pkg-toggle-btn.active {
+        background: var(--accent-color);
+        color: var(--white);
+        box-shadow: 0 4px 16px rgba(255, 107, 107, 0.3);
+      }
+
+      /* ── Package cards grid ─────────────────────────────────────── */
+      .packages-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        align-items: start;
+      }
+
+      /* Base card — mirrors .experience-card / .testimonial-card */
+      .pkg-card {
+        background: var(--white);
+        border: 1px solid #f0f0f0;
+        border-radius: 20px;
+        padding: 2.4rem 2rem 2rem;
+        position: relative;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+      }
+      .pkg-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.12);
+      }
+
+      /* Highlighted / "Most Popular" card */
+      .pkg-card.popular {
+        border: 2px solid var(--accent-color);
+        /* Lift it visually */
+        margin-top: -16px;
+        padding-top: 2.8rem;
+      }
+
+      /* Popular badge — reuses .featured-badge shape */
+      .pkg-popular-badge {
+        position: absolute;
+        top: -14px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--accent-color);
+        color: var(--white);
+        padding: 5px 20px;
+        border-radius: 20px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      /* Card tier label — matches .team-role typography */
+      .pkg-tier {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--accent-color);
+        margin-bottom: 0.5rem;
+      }
+
+      .pkg-name {
+        font-size: 1.55rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 0.3rem;
+      }
+
+      .pkg-tagline {
+        font-size: 0.85rem;
+        color: var(--text-light);
+        line-height: 1.55;
+        margin-bottom: 1.6rem;
+        min-height: 40px;
+      }
+
+      /* Price block */
+      .pkg-price-wrap {
+        display: flex;
+        align-items: flex-end;
+        gap: 4px;
+        margin-bottom: 0.3rem;
+      }
+      .pkg-currency {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        line-height: 2.2;
+      }
+      .pkg-amount {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        letter-spacing: -1.5px;
+        line-height: 1;
+      }
+      .pkg-per {
+        font-size: 0.82rem;
+        color: var(--text-light);
+        margin-bottom: 6px;
+        margin-left: 4px;
+      }
+      .pkg-price-note {
+        font-size: 0.78rem;
+        color: var(--text-light);
+        margin-bottom: 1.8rem;
+      }
+
+      /* Divider — consistent with .terms-block border */
+      .pkg-divider {
+        border: none;
+        border-top: 1px solid #f0f0f0;
+        margin-bottom: 1.5rem;
+      }
+
+      /* Feature list */
+      .pkg-features {
+        list-style: none;
+        margin-bottom: 2rem;
+      }
+      .pkg-features li {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 0.88rem;
+        color: var(--text-light);
+        margin-bottom: 0.75rem;
+        line-height: 1.5;
+      }
+      .pkg-features li i {
+        margin-top: 2px;
+        flex-shrink: 0;
+        font-size: 0.9rem;
+      }
+      .pkg-features li .feat-on  { color: var(--accent-color); }
+      .pkg-features li .feat-off { color: #d0d0d0; }
+      .pkg-features li.feat-disabled { opacity: 0.45; }
+
+      /* CTA inside card — inherits .cta-button shape */
+      .pkg-cta {
+        display: block;
+        width: 100%;
+        padding: 13px 24px;
+        border-radius: 50px;
+        font-family: "Poppins", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        letter-spacing: 0.4px;
+        text-align: center;
+        cursor: pointer;
+        border: none;
+        transition: all 0.3s ease;
+      }
+      .pkg-cta.filled {
+        background: var(--accent-color);
+        color: var(--white);
+      }
+      .pkg-cta.filled:hover {
+        background: #ff5252;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+      }
+      .pkg-cta.outline {
+        background: transparent;
+        border: 2px solid var(--accent-color);
+        color: var(--accent-color);
+      }
+      .pkg-cta.outline:hover {
+        background: var(--accent-color);
+        color: var(--white);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(255, 107, 107, 0.2);
+      }
+
+      /* ── Includes strip (icon + label row) ──────────────────────── */
+      /* Reuses .value-card layout in a horizontal strip */
+      .includes-strip {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+      }
+
+      /* ── Comparison table ────────────────────────────────────────── */
+      .compare-wrap {
+        overflow-x: auto;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+        border: 1px solid #f0f0f0;
+      }
+      .compare-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+        background: var(--white);
+        border-radius: 20px;
+        overflow: hidden;
+      }
+      .compare-table thead tr {
+        background: var(--dark-bg);
+        color: var(--white);
+      }
+      .compare-table thead th {
+        padding: 1.2rem 1.4rem;
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: 0.3px;
+      }
+      .compare-table thead th:first-child { text-align: left; }
+      .compare-table thead th.col-popular {
+        background: var(--accent-color); /* highlight middle column */
+      }
+      .compare-table tbody tr {
+        border-bottom: 1px solid #f5f5f5;
+        transition: background 0.2s ease;
+      }
+      .compare-table tbody tr:last-child { border-bottom: none; }
+      .compare-table tbody tr:hover { background: var(--white-smoke); }
+      .compare-table td {
+        padding: 1rem 1.4rem;
+        text-align: center;
+        color: var(--text-light);
+        font-size: 0.875rem;
+      }
+      .compare-table td:first-child {
+        text-align: left;
+        color: var(--text-dark);
+        font-weight: 500;
+      }
+      .compare-table td i.fa-check { color: var(--accent-color); }
+      .compare-table td i.fa-minus { color: #d0d0d0; }
+      .compare-table .row-category td {
+        background: var(--white-smoke);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--accent-color);
+        padding: 0.6rem 1.4rem;
+      }
+
+      /* ── FAQ accordion ───────────────────────────────────────────── */
+      .faq-list { max-width: 740px; margin: 0 auto; }
+
+      .faq-item {
+        border: 1px solid #f0f0f0;
+        border-radius: 16px;
+        margin-bottom: 0.9rem;
+        background: var(--white);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+      }
+      .faq-item:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.07); }
+
+      .faq-question {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.2rem 1.5rem;
+        background: none;
+        border: none;
+        font-family: "Poppins", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        cursor: pointer;
+        text-align: left;
+        gap: 1rem;
+        transition: color 0.25s ease;
+      }
+      .faq-question:hover { color: var(--accent-color); }
+      .faq-question i {
+        font-size: 0.85rem;
+        color: var(--accent-color);
+        transition: transform 0.3s ease;
+        flex-shrink: 0;
+      }
+      .faq-item.open .faq-question i { transform: rotate(45deg); }
+
+      .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease, padding 0.3s ease;
+        padding: 0 1.5rem;
+      }
+      .faq-answer p {
+        color: var(--text-light);
+        font-size: 0.88rem;
+        line-height: 1.8;
+        padding-bottom: 1.2rem;
+      }
+      .faq-item.open .faq-answer { max-height: 300px; }
+
+      /* ── Responsive ───────────────────────────────────────────────  */
+      @media (max-width: 900px) {
+        .packages-grid  { grid-template-columns: 1fr; }
+        .pkg-card.popular { margin-top: 0; }
+        .includes-strip { grid-template-columns: repeat(2, 1fr); }
+        .compare-table  { min-width: 600px; }
+      }
+      @media (max-width: 600px) {
+        .includes-strip { grid-template-columns: 1fr 1fr; }
+        .pkg-toggle { flex-wrap: wrap; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ═══════════════════════ NAV (identical to Index.html) ══════ -->
+    <nav class="top-nav nav__menu">
+      <div class="top-nav-inner">
+        <div class="menu-nav">
+          <div class="logo" onclick="location.href='./Index.html#hero'">
+            <i class="fas fa-mountain"></i>
+            <span class="logo-text horizontal">ALPINE</span>
+          </div>
+          <ul class="nav-menu horizontal">
+            <li>
+              <a href="./Index.html#experiences" data-tooltip="Experiences">
+                <i class="fas fa-star"></i>
+                <span class="nav-text">Experiences</span>
+              </a>
+            </li>
+            <li>
+              <a href="./Index.html#activities" data-tooltip="Activities">
+                <i class="fas fa-skiing"></i>
+                <span class="nav-text">Activities</span>
+              </a>
+            </li>
+            <li>
+              <a href="./Packages.html" data-tooltip="Packages" class="active-link">
+                <i class="fas fa-box-open"></i>
+                <span class="nav-text">Packages</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="nav-actions">
+          <button class="login-btn" aria-label="Login">
+            <i class="fas fa-user"></i>
+          </button>
+          <button class="book-btn">Book Now</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ═══════════════════════ MAIN ══════════════════════════════ -->
+    <main class="main-content">
+
+      <!-- ── Page Hero ──────────────────────────────────────────── -->
+      <section class="page-hero">
+        <div class="page-hero-inner container">
+          <div class="page-hero-tag">
+            <i class="fas fa-tag"></i> Pricing &amp; Packages
+          </div>
+          <h1>Find Your Perfect Winter Package</h1>
+          <p>
+            From quick weekend escapes to full-season passes — every tier is
+            crafted to deliver the Alpine experience you deserve.
+          </p>
+          <div class="breadcrumb">
+            <a href="./Index.html">Home</a>
+            <span>›</span>
+            <span>Packages</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Package Cards ─────────────────────────────────────── -->
+      <section class="inner-section" id="packages">
+        <div class="container">
+
+          <!-- Section heading — uses .section-label / .section-heading from additions -->
+          <p class="section-label">Choose your adventure</p>
+          <h2 class="section-heading">Ski Resort <span class="accent">Packages</span></h2>
+          <div class="section-rule"></div>
+          <p class="section-subtext">
+            All packages include mountain access, ski patrol, and our warm
+            Alpine welcome. Select the duration that fits your schedule.
+          </p>
+
+          <!-- Duration toggle -->
+          <div class="pkg-toggle" id="durationToggle">
+            <button class="pkg-toggle-btn active" data-duration="weekend">Weekend</button>
+            <button class="pkg-toggle-btn" data-duration="week">Week</button>
+            <button class="pkg-toggle-btn" data-duration="season">Full Season</button>
+          </div>
+
+          <!-- Cards -->
+          <div class="packages-grid reveal stagger">
+
+            <!-- ── Silver ──────────────────────────────────────── -->
+            <div class="pkg-card" style="--i:0">
+              <p class="pkg-tier">Silver</p>
+              <h3 class="pkg-name">Base Camp</h3>
+              <p class="pkg-tagline">Perfect for first-timers &amp; casual day-trippers.</p>
+
+              <div class="pkg-price-wrap">
+                <span class="pkg-currency">$</span>
+                <span class="pkg-amount" data-weekend="249" data-week="799" data-season="1899">249</span>
+                <span class="pkg-per">/ person</span>
+              </div>
+              <p class="pkg-price-note">Taxes &amp; fees included. No hidden charges.</p>
+
+              <hr class="pkg-divider" />
+
+              <ul class="pkg-features">
+                <li><i class="fas fa-check feat-on"></i> Mountain access pass</li>
+                <li><i class="fas fa-check feat-on"></i> Beginner slopes (Zones 1–2)</li>
+                <li><i class="fas fa-check feat-on"></i> Gear rental (skis &amp; boots)</li>
+                <li><i class="fas fa-check feat-on"></i> Locker room access</li>
+                <li><i class="fas fa-check feat-on"></i> Trail map &amp; safety briefing</li>
+                <li class="feat-disabled"><i class="fas fa-minus feat-off"></i> Ski lessons included</li>
+                <li class="feat-disabled"><i class="fas fa-minus feat-off"></i> Spa access</li>
+                <li class="feat-disabled"><i class="fas fa-minus feat-off"></i> Dining credit</li>
+                <li class="feat-disabled"><i class="fas fa-minus feat-off"></i> Priority lift queue</li>
+              </ul>
+
+              <button class="pkg-cta outline">Get Started</button>
+            </div>
+
+            <!-- ── Gold (Popular) ───────────────────────────────── -->
+            <div class="pkg-card popular" style="--i:1">
+              <span class="pkg-popular-badge">Most Popular</span>
+              <p class="pkg-tier">Gold</p>
+              <h3 class="pkg-name">Summit Select</h3>
+              <p class="pkg-tagline">The ideal all-rounder for families &amp; avid skiers.</p>
+
+              <div class="pkg-price-wrap">
+                <span class="pkg-currency">$</span>
+                <span class="pkg-amount" data-weekend="449" data-week="1399" data-season="3299">449</span>
+                <span class="pkg-per">/ person</span>
+              </div>
+              <p class="pkg-price-note">Taxes &amp; fees included. No hidden charges.</p>
+
+              <hr class="pkg-divider" />
+
+              <ul class="pkg-features">
+                <li><i class="fas fa-check feat-on"></i> Full mountain access (all zones)</li>
+                <li><i class="fas fa-check feat-on"></i> All skill-level trails</li>
+                <li><i class="fas fa-check feat-on"></i> Gear rental &amp; helmet</li>
+                <li><i class="fas fa-check feat-on"></i> 2 group ski lessons</li>
+                <li><i class="fas fa-check feat-on"></i> $60 dining credit</li>
+                <li><i class="fas fa-check feat-on"></i> Locker room + heated boots</li>
+                <li><i class="fas fa-check feat-on"></i> Half-day spa access</li>
+                <li><i class="fas fa-check feat-on"></i> Trail map &amp; safety briefing</li>
+                <li class="feat-disabled"><i class="fas fa-minus feat-off"></i> Priority lift queue</li>
+              </ul>
+
+              <button class="pkg-cta filled">Book Summit Select</button>
+            </div>
+
+            <!-- ── Platinum ──────────────────────────────────────── -->
+            <div class="pkg-card" style="--i:2">
+              <p class="pkg-tier">Platinum</p>
+              <h3 class="pkg-name">Alpine Elite</h3>
+              <p class="pkg-tagline">The ultimate luxury experience — nothing held back.</p>
+
+              <div class="pkg-price-wrap">
+                <span class="pkg-currency">$</span>
+                <span class="pkg-amount" data-weekend="749" data-week="2199" data-season="5499">749</span>
+                <span class="pkg-per">/ person</span>
+              </div>
+              <p class="pkg-price-note">Taxes &amp; fees included. No hidden charges.</p>
+
+              <hr class="pkg-divider" />
+
+              <ul class="pkg-features">
+                <li><i class="fas fa-check feat-on"></i> Full mountain + backcountry access</li>
+                <li><i class="fas fa-check feat-on"></i> Private ski instructor (4 hrs/day)</li>
+                <li><i class="fas fa-check feat-on"></i> Premium gear &amp; demo skis</li>
+                <li><i class="fas fa-check feat-on"></i> $150 dining credit</li>
+                <li><i class="fas fa-check feat-on"></i> Full-day spa &amp; wellness access</li>
+                <li><i class="fas fa-check feat-on"></i> Priority lift queue (skip the line)</li>
+                <li><i class="fas fa-check feat-on"></i> Luxury cabin upgrade</li>
+                <li><i class="fas fa-check feat-on"></i> Snowmobile excursion (1 hr)</li>
+                <li><i class="fas fa-check feat-on"></i> Dedicated concierge</li>
+              </ul>
+
+              <button class="pkg-cta outline">Go Elite</button>
+            </div>
+
+          </div><!-- /packages-grid -->
+        </div>
+      </section>
+
+      <!-- ── What's Always Included ─────────────────────────────── -->
+      <section class="inner-section alt-bg">
+        <div class="container">
+          <p class="section-label">Every package, every time</p>
+          <h2 class="section-heading">Always <span class="accent">Included</span></h2>
+          <div class="section-rule"></div>
+          <p class="section-subtext">
+            No matter which tier you choose, these essentials come standard
+            with your Alpine Adventures booking.
+          </p>
+
+          <!-- Reuses .value-card + .value-icon from Styles-additions.css -->
+          <div class="includes-strip reveal stagger">
+
+            <div class="value-card" style="--i:0">
+              <div class="value-icon"><i class="fas fa-shield-alt"></i></div>
+              <h3>Ski Patrol</h3>
+              <p>Professional on-mountain safety crew on duty every day from first lift to last.</p>
+            </div>
+
+            <div class="value-card" style="--i:1">
+              <div class="value-icon"><i class="fas fa-map-marked-alt"></i></div>
+              <h3>Trail Access</h3>
+              <p>Marked runs for every skill level, groomed nightly for fresh morning conditions.</p>
+            </div>
+
+            <div class="value-card" style="--i:2">
+              <div class="value-icon"><i class="fas fa-wifi"></i></div>
+              <h3>Free Resort Wi-Fi</h3>
+              <p>Stay connected across lodges, restaurants, and most outdoor seating areas.</p>
+            </div>
+
+            <div class="value-card" style="--i:3">
+              <div class="value-icon"><i class="fas fa-bus-alt"></i></div>
+              <h3>Shuttle Service</h3>
+              <p>Complimentary loop shuttles running between all resort zones every 20 minutes.</p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Full Comparison Table ──────────────────────────────── -->
+      <section class="inner-section" id="compare">
+        <div class="container">
+          <p class="section-label">Side by side</p>
+          <h2 class="section-heading">Compare <span class="accent">All Plans</span></h2>
+          <div class="section-rule"></div>
+          <p class="section-subtext">
+            Not sure which to pick? Use the table below to see every feature
+            across all three tiers at a glance.
+          </p>
+
+          <div class="compare-wrap reveal">
+            <table class="compare-table">
+              <thead>
+                <tr>
+                  <th style="width:38%">Feature</th>
+                  <th>Silver <br /><small style="font-weight:400;opacity:.8">Base Camp</small></th>
+                  <th class="col-popular">Gold <br /><small style="font-weight:400;opacity:.85">Summit Select</small></th>
+                  <th>Platinum <br /><small style="font-weight:400;opacity:.8">Alpine Elite</small></th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Category row reuses .row-category -->
+                <tr class="row-category"><td colspan="4">Mountain Access</td></tr>
+                <tr>
+                  <td>All mountain zones</td>
+                  <td>Zones 1–2</td>
+                  <td>All zones</td>
+                  <td>All + backcountry</td>
+                </tr>
+                <tr>
+                  <td>Night skiing</td>
+                  <td><i class="fas fa-minus"></i></td>
+                  <td><i class="fas fa-check"></i></td>
+                  <td><i class="fas fa-check"></i></td>
+                </tr>
+                <tr>
+                  <td>Priority lift queue</td>
+                  <td><i class="fas fa-minus"></i></td>
+                  <td><i class="fas fa-minus"></i></td>
+                  <td><i class="fas fa-check"></i></td>
+                </tr>
+
+                <tr class="row-category"><td colspan="4">Equipment</td></tr>
+                <tr>
+                  <td>Ski &amp; boot rental</td>
+                  <td><i class="fas fa-check"></i></td>
+                  <td><i class="fas fa-check"></i></td>
+                  <td>Premium + demo skis</td>
+                </tr>
+                <tr>
+                  <td>Helmet included</td>
+                  <td><i class="fas fa-minus"></i></td>
+                  <td><i class="fas fa-check"></i></td>
+                  <td><i class="fas fa-check"></i></td>
+                </tr>
+                <tr>
+                  <td>Heated boot dryer</td>
+                  <td><i class="fas fa-minus"></i></td>
+                  <td><i class="fas fa-check"></i></td>
+                  <td><i class="fas fa-check"></i></td>
+                </tr>
+
+                <tr class="row-category"><td colspan="4">Lessons &amp; Instruction</td></tr>
+                <tr>
+                  <td>Ski lessons</td>
+                  <td><i class="fas fa-minus"></i></td>
+                  <td>2 group lessons</td>
+                  <td>Private (4 hrs/day)</td>
+                </tr>
+                <tr>
+                  <td>Avalanche safety briefing</td>
+                  <td><i class="fas fa-check"></i></td>
+                  <td><i class="fas fa-check"></i></td>
+                  <td><i class="fas fa-check"></i></td>
+                </tr>
+
+                <tr class="row-category"><td colspan="4">Dining &amp; Wellness</td></tr>
+                <tr>
+                  <td>Dining credit</td>
+                  <td><i class="fas fa-minus"></i></td>
+                  <td>$60</td>
+                  <td>$150</td>
+                </tr>
+                <tr>
+                  <td>Spa access</td>
+                  <td><i class="fas fa-minus"></i></td>
+                  <td>Half day</td>
+                  <td>Full day</td>
+                </tr>
+
+                <tr class="row-category"><td colspan="4">Extras</td></tr>
+                <tr>
+                  <td>Snowmobile excursion</td>
+                  <td><i class="fas fa-minus"></i></td>
+                  <td><i class="fas fa-minus"></i></td>
+                  <td>1 hr included</td>
+                </tr>
+                <tr>
+                  <td>Luxury cabin upgrade</td>
+                  <td><i class="fas fa-minus"></i></td>
+                  <td><i class="fas fa-minus"></i></td>
+                  <td><i class="fas fa-check"></i></td>
+                </tr>
+                <tr>
+                  <td>Dedicated concierge</td>
+                  <td><i class="fas fa-minus"></i></td>
+                  <td><i class="fas fa-minus"></i></td>
+                  <td><i class="fas fa-check"></i></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Add-ons ─────────────────────────────────────────────── -->
+      <section class="inner-section accent-bg">
+        <div class="container">
+          <p class="section-label">Build your own</p>
+          <h2 class="section-heading">Optional <span class="accent">Add-ons</span></h2>
+          <div class="section-rule"></div>
+          <p class="section-subtext">
+            Customise any package with these á-la-carte extras — available at
+            checkout or at the resort welcome desk.
+          </p>
+
+          <!-- Reuses .info-card + .info-icon layout from additions -->
+          <div class="reveal stagger" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+
+            <div class="info-card" style="--i:0">
+              <div class="info-icon"><i class="fas fa-dog"></i></div>
+              <div class="info-text">
+                <h4>Dog Sledding Tour — $85 / person</h4>
+                <p>A 90-minute guided tour through alpine wilderness with our trained sled dogs.</p>
+              </div>
+            </div>
+
+            <div class="info-card" style="--i:1">
+              <div class="info-icon"><i class="fas fa-camera"></i></div>
+              <div class="info-text">
+                <h4>Pro Photo Session — $120 / session</h4>
+                <p>Action shots on the slopes by a certified mountain photographer. Digital gallery included.</p>
+              </div>
+            </div>
+
+            <div class="info-card" style="--i:2">
+              <div class="info-icon"><i class="fas fa-glass-cheers"></i></div>
+              <div class="info-text">
+                <h4>Après-Ski Package — $55 / person</h4>
+                <p>Two hours of fondue, craft beers, and live acoustic sessions at the lodge firepit.</p>
+              </div>
+            </div>
+
+            <div class="info-card" style="--i:3">
+              <div class="info-icon"><i class="fas fa-child"></i></div>
+              <div class="info-text">
+                <h4>Kids' Ski School — $70 / child / day</h4>
+                <p>Dedicated instructors for ages 4–12. Safety-first fun with progress certificates.</p>
+              </div>
+            </div>
+
+            <div class="info-card" style="--i:4">
+              <div class="info-icon"><i class="fas fa-snowflake"></i></div>
+              <div class="info-text">
+                <h4>Ice Climbing Intro — $95 / person</h4>
+                <p>Half-day guided session with full harness, crampons, and equipment included.</p>
+              </div>
+            </div>
+
+            <div class="info-card" style="--i:5">
+              <div class="info-icon"><i class="fas fa-star"></i></div>
+              <div class="info-text">
+                <h4>VIP Dinner Experience — $180 / couple</h4>
+                <p>Five-course mountain cuisine at the peak-side Alpine Table restaurant at sunset.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ── FAQ ────────────────────────────────────────────────── -->
+      <section class="inner-section alt-bg" id="faq">
+        <div class="container">
+          <p class="section-label">Got questions?</p>
+          <h2 class="section-heading">Frequently <span class="accent">Asked</span></h2>
+          <div class="section-rule"></div>
+          <p class="section-subtext">
+            Here are the answers to the things guests ask us most. Still
+            unsure? Reach out on our Contact page.
+          </p>
+
+          <div class="faq-list reveal stagger">
+
+            <div class="faq-item">
+              <button class="faq-question">
+                Can I upgrade my package after booking?
+                <i class="fas fa-plus"></i>
+              </button>
+              <div class="faq-answer">
+                <p>Yes! You can upgrade to a higher tier up to 48 hours before your arrival, subject to availability. Simply contact our reservations team or visit the resort welcome desk on check-in day.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question">
+                Are children's prices different?
+                <i class="fas fa-plus"></i>
+              </button>
+              <div class="faq-answer">
+                <p>Children under 5 ski free. Ages 6–12 receive a 40% discount on all packages, and ages 13–17 receive 20% off. Proof of age may be required at check-in.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question">
+                What's the cancellation policy?
+                <i class="fas fa-plus"></i>
+              </button>
+              <div class="faq-answer">
+                <p>Full refunds are available up to 14 days before your visit. Between 7–14 days, a 25% cancellation fee applies. Bookings cancelled within 7 days of arrival are non-refundable, but can be transferred to a future date.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question">
+                Do I need prior skiing experience for any package?
+                <i class="fas fa-plus"></i>
+              </button>
+              <div class="faq-answer">
+                <p>Not at all. The Base Camp and Summit Select packages are designed with beginners in mind. Our ski school add-on and included group lessons in Summit Select will have you confidently on the slopes in no time.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question">
+                Is accommodation included in the packages?
+                <i class="fas fa-plus"></i>
+              </button>
+              <div class="faq-answer">
+                <p>Standard packages cover resort activities and services only. The Alpine Elite (Platinum) package includes a luxury cabin upgrade. All guests can browse and book our lodging separately on the Accommodations page.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question">
+                Can I mix packages within the same group?
+                <i class="fas fa-plus"></i>
+              </button>
+              <div class="faq-answer">
+                <p>Absolutely. Group bookings allow each member to select their own tier. Simply use the group booking option at checkout and enter each person's preference individually.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ── CTA (identical pattern to Index.html) ──────────────── -->
+      <section class="cta-section reveal stagger" id="contact">
+        <div class="container">
+          <h2>Ready to Hit the Slopes?</h2>
+          <p>Secure your spot before the season sells out</p>
+          <button class="cta-button glow">Reserve Your Package</button>
+        </div>
+      </section>
+
+      <!-- ── Footer (identical to Index.html) ───────────────────── -->
+      <footer class="footer reveal stagger">
+        <div class="container">
+          <div class="footer-content">
+            <div class="footer-section">
+              <h3>Stay Connected</h3>
+              <div class="newsletter">
+                <input type="email" placeholder="Enter your email" class="newsletter-input" />
+                <button class="newsletter-btn">Subscribe</button>
+              </div>
+            </div>
+            <div class="footer-section">
+              <h3>Quick Links</h3>
+              <ul>
+                <li><a href="./Index.html">Home</a></li>
+                <li><a href="./Index.html#experiences">Experiences</a></li>
+                <li><a href="./Index.html#activities">Activities</a></li>
+                <li><a href="./Packages.html">Packages</a></li>
+              </ul>
+            </div>
+            <div class="footer-section">
+              <h3>Location</h3>
+              <div class="location-info">
+                <p>Alpine Resort Mountain View, CO 80424</p>
+              </div>
+            </div>
+            <div class="footer-section">
+              <h3>Follow Us</h3>
+              <div class="footer-social">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <p>&copy; 2024 Alpine Adventures. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+
+    </main><!-- /main-content -->
+
+    <script>
+      /* ── Body loaded fade-in (Styles-additions.css) ──────────── */
+      window.addEventListener("load", () => document.body.classList.add("loaded"));
+
+      /* ── Reveal on scroll (mirrors Index.js IntersectionObserver) */
+      (function () {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add("visible");
+                observer.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.15 }
+        );
+        document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+      })();
+
+      /* ── Duration toggle + price swap ─────────────────────────── */
+      (function () {
+        const btns   = document.querySelectorAll(".pkg-toggle-btn");
+        const prices = document.querySelectorAll(".pkg-amount");
+
+        btns.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            btns.forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            const dur = btn.dataset.duration;
+            prices.forEach((p) => {
+              // Animate price change
+              p.style.transform = "translateY(-8px)";
+              p.style.opacity   = "0";
+              setTimeout(() => {
+                p.textContent     = p.dataset[dur];
+                p.style.transform = "translateY(0)";
+                p.style.opacity   = "1";
+              }, 180);
+            });
+          });
+        });
+
+        // Smooth price transition
+        prices.forEach((p) => {
+          p.style.transition = "transform 0.18s ease, opacity 0.18s ease";
+        });
+      })();
+
+      /* ── FAQ accordion ─────────────────────────────────────────── */
+      document.querySelectorAll(".faq-question").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const item = btn.closest(".faq-item");
+          const isOpen = item.classList.contains("open");
+          // Close all
+          document.querySelectorAll(".faq-item").forEach((i) => i.classList.remove("open"));
+          // Open clicked (if it was closed)
+          if (!isOpen) item.classList.add("open");
+        });
+      });
+
+      /* ── CTA ripple (mirrors Index.js) ─────────────────────────── */
+      document.querySelectorAll(".cta-button, .pkg-cta").forEach((button) => {
+        button.addEventListener("click", (e) => {
+          const ripple = document.createElement("span");
+          const rect   = button.getBoundingClientRect();
+          const size   = Math.max(rect.width, rect.height);
+          ripple.style.cssText = `
+            position:absolute;width:${size}px;height:${size}px;
+            left:${e.clientX - rect.left - size / 2}px;
+            top:${e.clientY - rect.top  - size / 2}px;
+            background:rgba(255,255,255,0.3);border-radius:50%;
+            transform:scale(0);animation:ripple 0.6s linear;pointer-events:none;
+          `;
+          button.style.position = "relative";
+          button.style.overflow = "hidden";
+          button.appendChild(ripple);
+          setTimeout(() => ripple.remove(), 600);
+        });
+      });
+
+      const rippleCSS = document.createElement("style");
+      rippleCSS.textContent = `@keyframes ripple{to{transform:scale(4);opacity:0}}`;
+      document.head.appendChild(rippleCSS);
+
+      /* ── Newsletter (mirrors Index.js) ─────────────────────────── */
+      const newsletterBtn   = document.querySelector(".newsletter-btn");
+      const newsletterInput = document.querySelector(".newsletter-input");
+      if (newsletterBtn && newsletterInput) {
+        newsletterBtn.addEventListener("click", () => {
+          const email = newsletterInput.value.trim();
+          const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+          if (valid) {
+            newsletterBtn.textContent     = "Subscribed!";
+            newsletterBtn.style.background = "#4CAF50";
+            newsletterInput.value          = "";
+            setTimeout(() => {
+              newsletterBtn.textContent     = "Subscribe";
+              newsletterBtn.style.background = "";
+            }, 3000);
+          } else {
+            alert("Please enter a valid email address");
+          }
+        });
+      }
+
+      /* ── Active nav highlight ─────────────────────────────────── */
+      const sections = document.querySelectorAll("section[id]");
+      window.addEventListener("scroll", () => {
+        const scrollY = window.scrollY;
+        sections.forEach((s) => {
+          const top = s.offsetTop - 90;
+          const id  = s.getAttribute("id");
+          const link = document.querySelector(`.nav__menu a[href="#${id}"]`);
+          if (!link) return;
+          if (scrollY > top && scrollY <= top + s.offsetHeight) {
+            link.classList.add("active-link");
+          } else {
+            link.classList.remove("active-link");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
