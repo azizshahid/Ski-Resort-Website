@@ -1,0 +1,2071 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Your Stay — Alpine Adventures</title>
+    <link rel="stylesheet" href="./CSS/Styles.css" />
+    <link rel="stylesheet" href="./CSS/Styles-additions.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+      /* ═══════════════════════════════════════════════════════════
+         BOOKING PAGE — scoped styles only.
+         All values reference existing CSS variables from Styles.css.
+         No new colour values are invented here.
+      ═══════════════════════════════════════════════════════════ */
+
+      /* ── Step Navigator ──────────────────────────────────────── */
+      .step-nav-bar {
+        display: flex;
+        align-items: center;
+        margin-bottom: 2.5rem;
+      }
+
+      .step-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        flex: 1;
+        position: relative;
+        z-index: 1;
+      }
+
+      .step-circle {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        border: 2px solid #e0e0e0;
+        background: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: #ccc;
+        transition: all 0.4s ease;
+      }
+
+      .step-item.active .step-circle {
+        border-color: var(--accent-color);
+        background: var(--accent-color);
+        color: var(--white);
+        box-shadow: 0 4px 18px rgba(255, 107, 107, 0.35);
+      }
+
+      .step-item.done .step-circle {
+        border-color: var(--accent-color);
+        background: var(--accent-color);
+        color: var(--white);
+      }
+
+      .step-label {
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.4px;
+        color: #ccc;
+        text-align: center;
+        white-space: nowrap;
+        transition: color 0.4s ease;
+      }
+
+      .step-item.active .step-label,
+      .step-item.done .step-label {
+        color: var(--accent-color);
+      }
+
+      .step-line {
+        flex: 1;
+        height: 2px;
+        background: #e8e8e8;
+        margin-bottom: 24px;
+        transition: background 0.4s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .step-line::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--accent-color);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.5s ease;
+      }
+
+      .step-line.done::after {
+        transform: scaleX(1);
+      } */
+
+      /* ── Two-column booking layout ───────────────────────────── */
+      .booking-layout {
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        gap: 2rem;
+        align-items: start;
+      }
+
+      /* ── Form card ───────────────────────────────────────────── */
+      .booking-card {
+        background: var(--white);
+        border: 1px solid #f0f0f0;
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+        min-height: 400px;
+      } 
+
+      /* ── Step panels ─────────────────────────────────────────── */
+      .step-panel {
+        display: none;
+      }
+
+      .step-panel.active {
+        display: block;
+        animation: stepSlideIn 0.35s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+      }
+
+      .step-panel.active.back {
+        animation: stepSlideInBack 0.35s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+      }
+
+      @keyframes stepSlideIn {
+        from { opacity: 0; transform: translateX(28px); }
+        to   { opacity: 1; transform: translateX(0); }
+      }
+
+      @keyframes stepSlideInBack {
+        from { opacity: 0; transform: translateX(-28px); }
+        to   { opacity: 1; transform: translateX(0); }
+      }
+
+      .panel-heading {
+        margin-bottom: 1.8rem;
+      }
+
+      .panel-heading h3 {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 0.3rem;
+      }
+
+      .panel-heading p {
+        font-size: 0.87rem;
+        color: var(--text-light);
+        line-height: 1.6;
+      } 
+
+      /* ── Date row ────────────────────────────────────────────── */
+      .date-pair {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .nights-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: rgba(255, 107, 107, 0.08);
+        border: 1px solid rgba(255, 107, 107, 0.22);
+        border-radius: 50px;
+        padding: 6px 16px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--accent-color);
+        margin-bottom: 1.4rem;
+        transition: all 0.3s ease;
+      } 
+
+      /* ── Guest counters ──────────────────────────────────────── */ 
+      .counter-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.9rem;
+        margin-bottom: 1.4rem;
+      }
+
+      .counter-tile {
+        border: 1.5px solid #eaeaea;
+        border-radius: 14px;
+        padding: 1rem 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--white);
+        transition: border-color 0.25s ease;
+      }
+
+      .counter-tile:focus-within {
+        border-color: var(--accent-color);
+      }
+
+      .counter-label h4 {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 2px;
+      }
+
+      .counter-label p {
+        font-size: 0.73rem;
+        color: var(--text-light);
+      }
+
+      .counter-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .c-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: 1.5px solid #e0e0e0;
+        background: var(--white);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        line-height: 1;
+        transition: all 0.2s ease;
+        user-select: none;
+      }
+
+      .c-btn:hover:not(:disabled) {
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+        background: rgba(255, 107, 107, 0.05);
+      }
+
+      .c-btn:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+
+      .c-val {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        min-width: 22px;
+        text-align: center;
+      } */
+
+      /* ── Skill level grid ────────────────────────────────────── */
+      .skill-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.7rem;
+        margin-bottom: 0.4rem;
+      }
+
+      .skill-card {
+        border: 1.5px solid #eaeaea;
+        border-radius: 12px;
+        padding: 0.9rem 0.4rem 0.75rem;
+        text-align: center;
+        cursor: pointer;
+        background: var(--white);
+        transition: all 0.25s ease;
+      }
+
+      .skill-card:hover {
+        border-color: rgba(255, 107, 107, 0.5);
+        background: rgba(255, 107, 107, 0.03);
+      }
+
+      .skill-card.sel {
+        border-color: var(--accent-color);
+        background: rgba(255, 107, 107, 0.07);
+      }
+
+      .skill-card i {
+        font-size: 1.15rem;
+        color: #ccc;
+        margin-bottom: 5px;
+        display: block;
+        transition: color 0.25s ease;
+      }
+
+      .skill-card.sel i {
+        color: var(--accent-color);
+      }
+
+      .skill-card span {
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: var(--text-light);
+        transition: color 0.25s ease;
+      }
+
+      .skill-card.sel span {
+        color: var(--accent-color);
+      } 
+
+      /* ── Package picker ──────────────────────────────────────── */
+      .pkg-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.85rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .pkg-tile {
+        border: 1.5px solid #eaeaea;
+        border-radius: 16px;
+        padding: 1.5rem 1rem 1.2rem;
+        text-align: center;
+        cursor: pointer;
+        position: relative;
+        background: var(--white);
+        transition: all 0.25s ease;
+      }
+
+      .pkg-tile:hover {
+        border-color: var(--accent-color);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(255, 107, 107, 0.1);
+      }
+
+      .pkg-tile.sel {
+        border-color: var(--accent-color);
+        background: rgba(255, 107, 107, 0.05);
+        box-shadow: 0 8px 24px rgba(255, 107, 107, 0.14);
+      }
+
+      .pkg-tile.highlighted {
+        border-color: rgba(255, 107, 107, 0.4);
+      }
+
+      .pkg-tile-badge {
+        position: absolute;
+        top: -11px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--accent-color);
+        color: var(--white);
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 3px 12px;
+        border-radius: 20px;
+        white-space: nowrap;
+      }
+
+      .pkg-tile-check {
+        position: absolute;
+        top: 9px;
+        right: 9px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--accent-color);
+        color: var(--white);
+        font-size: 0.6rem;
+        display: none;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .pkg-tile.sel .pkg-tile-check {
+        display: flex;
+      }
+
+      .pkg-tile-icon {
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, var(--accent-color), #ff8a80);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 0.8rem;
+        color: var(--white);
+        font-size: 1.15rem;
+        transition: transform 0.25s ease;
+      }
+
+      .pkg-tile.sel .pkg-tile-icon {
+        transform: scale(1.1);
+      }
+
+      .pkg-tile-tier {
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--accent-color);
+        margin-bottom: 2px;
+      }
+
+      .pkg-tile-name {
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 0.6rem;
+      }
+
+      .pkg-tile-price {
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        letter-spacing: -0.5px;
+        transition: color 0.3s ease;
+      }
+
+      .pkg-tile.sel .pkg-tile-price {
+        color: var(--accent-color);
+      }
+
+      .pkg-tile-per {
+        font-size: 0.68rem;
+        color: var(--text-light);
+        margin-top: 1px;
+      }
+
+      /* ── Add-on cards ────────────────────────────────────────── */
+      .addon-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.7rem;
+        margin-bottom: 0.4rem;
+      }
+
+      .addon-tile {
+        border: 1.5px solid #eaeaea;
+        border-radius: 13px;
+        padding: 0.9rem 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: var(--white);
+        position: relative;
+        transition: all 0.25s ease;
+      }
+
+      .addon-tile:hover {
+        border-color: rgba(255, 107, 107, 0.5);
+        background: rgba(255, 107, 107, 0.02);
+      }
+
+      .addon-tile.sel {
+        border-color: var(--accent-color);
+        background: rgba(255, 107, 107, 0.06);
+      }
+
+      .addon-ico {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        background: var(--white-smoke);
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        color: var(--text-light);
+        transition: all 0.25s ease;
+      }
+
+      .addon-tile.sel .addon-ico {
+        background: rgba(255, 107, 107, 0.12);
+        color: var(--accent-color);
+      }
+
+      .addon-txt h4 {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 1px;
+      }
+
+      .addon-txt p {
+        font-size: 0.7rem;
+        color: var(--text-light);
+      }
+
+      .addon-chk {
+        position: absolute;
+        top: 7px;
+        right: 7px;
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        background: var(--accent-color);
+        color: var(--white);
+        font-size: 0.5rem;
+        display: none;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .addon-tile.sel .addon-chk {
+        display: flex;
+      } 
+
+      /* ── Step nav buttons ────────────────────────────────────── */
+      .step-btns {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 2rem;
+        padding-top: 1.4rem;
+        border-top: 1px solid #f5f5f5;
+      }
+
+      .btn-back {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.87rem;
+        font-weight: 600;
+        color: var(--text-light);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 10px 16px;
+        border-radius: 50px;
+        font-family: "Poppins", sans-serif;
+        transition: all 0.25s ease;
+      }
+
+      .btn-back:hover {
+        color: var(--text-dark);
+        background: var(--white-smoke);
+      }
+
+      .btn-next {
+        background: var(--accent-color);
+        color: var(--white);
+        border: none;
+        padding: 13px 30px;
+        border-radius: 50px;
+        font-family: "Poppins", sans-serif;
+        font-size: 0.92rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        letter-spacing: 0.3px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-next:hover {
+        background: #ff5252;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px rgba(255, 107, 107, 0.3);
+      }
+
+      .btn-next:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+      } 
+
+      /* ── Review sections (step 4) ────────────────────────────── */
+      .review-block {
+        background: var(--white-smoke);
+        border-radius: 14px;
+        padding: 1.2rem 1.4rem;
+        margin-bottom: 1rem;
+      }
+
+      .review-block-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.8rem;
+      }
+
+      .review-block-head span:first-child {
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--accent-color);
+      }
+
+      .edit-link {
+        font-size: 0.75rem;
+        color: var(--text-light);
+        cursor: pointer;
+        font-weight: 500;
+        transition: color 0.2s ease;
+        background: none;
+        border: none;
+        font-family: "Poppins", sans-serif;
+        padding: 2px 4px;
+      }
+
+      .edit-link:hover {
+        color: var(--accent-color);
+      }
+
+      .review-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        font-size: 0.84rem;
+        margin-bottom: 0.32rem;
+      }
+
+      .review-row span:first-child {
+        color: var(--text-light);
+      }
+
+      .review-row span:last-child {
+        font-weight: 600;
+        color: var(--text-dark);
+        text-align: right;
+      } 
+
+      /* Payment card inputs */
+      .card-field {
+        position: relative;
+      }
+
+      .card-field .field-icon {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-light);
+        font-size: 0.9rem;
+        pointer-events: none;
+      }
+
+      .pay-brands {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .pay-brand {
+        background: var(--white-smoke);
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        padding: 3px 9px;
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: var(--text-light);
+        letter-spacing: 0.5px;
+      }
+
+      .pay-secure {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.7rem;
+        color: var(--text-light);
+      } 
+
+      /* Terms checkbox row */
+      .terms-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin: 1rem 0 0.3rem;
+      }
+
+      .terms-row input[type="checkbox"] {
+        width: 17px;
+        height: 17px;
+        min-width: 17px;
+        margin-top: 2px;
+        accent-color: var(--accent-color);
+        cursor: pointer;
+      }
+
+      .terms-row label {
+        font-size: 0.8rem;
+        color: var(--text-light);
+        line-height: 1.65;
+        cursor: pointer;
+      }
+
+      .terms-row label a {
+        color: var(--accent-color);
+        text-decoration: none;
+      } 
+
+      /* ── Validation error states ─────────────────────────────── */
+      .form-input.err,
+      .form-select.err {
+        border-color: #e74c3c;
+        box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.08);
+      }
+
+      .ferr {
+        font-size: 0.73rem;
+        color: #e74c3c;
+        margin-top: 4px;
+        display: none;
+      }
+
+      .ferr.show {
+        display: block;
+      }
+
+      /* ── Sticky summary sidebar ──────────────────────────────── */
+      .booking-sidebar {
+        position: sticky;
+        top: 90px;
+      }
+
+      .summary-card {
+        background: var(--white);
+        border: 1px solid #f0f0f0;
+        border-radius: 20px;
+        padding: 1.6rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+        margin-bottom: 0.9rem;
+      }
+
+      .summary-card-title {
+        font-size: 0.93rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 1.1rem;
+        padding-bottom: 0.8rem;
+        border-bottom: 1px solid #f5f5f5;
+      }
+
+      .summary-card-title i {
+        color: var(--accent-color);
+      }
+
+      .sum-empty {
+        text-align: center;
+        padding: 1.2rem 0;
+        color: var(--text-light);
+        font-size: 0.82rem;
+        line-height: 1.7;
+      }
+
+      .sum-empty i {
+        font-size: 1.8rem;
+        color: #e0e0e0;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+
+      .sum-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 0.38rem 0;
+        border-bottom: 1px solid #fafafa;
+        font-size: 0.82rem;
+      }
+
+      .sum-row:last-child {
+        border-bottom: none;
+      }
+
+      .sum-lbl {
+        color: var(--text-light);
+        flex: 1;
+      }
+
+      .sum-val {
+        font-weight: 600;
+        color: var(--text-dark);
+        text-align: right;
+      }
+
+      .sum-divider {
+        border: none;
+        border-top: 1px solid #f0f0f0;
+        margin: 0.7rem 0;
+      }
+
+      .sum-total {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 0.5rem;
+      }
+
+      .sum-total-lbl {
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: var(--text-dark);
+      }
+
+      .sum-total-amt {
+        font-size: 1.55rem;
+        font-weight: 700;
+        color: var(--accent-color);
+        letter-spacing: -0.5px;
+      } 
+
+      /* Trust badges — reuse existing .trust-badge from page (info-card variant) */
+      .tbadge {
+        background: var(--white-smoke);
+        border-radius: 14px;
+        padding: 0.9rem 1.1rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        margin-bottom: 0.65rem;
+      }
+
+      .tbadge i {
+        color: var(--accent-color);
+        font-size: 0.9rem;
+        margin-top: 2px;
+        flex-shrink: 0;
+      }
+
+      .tbadge p {
+        font-size: 0.77rem;
+        color: var(--text-light);
+        line-height: 1.55;
+      }
+
+      .tbadge strong {
+        color: var(--text-dark);
+        font-weight: 600;
+      } 
+  
+      /* ── Success overlay ─────────────────────────────────────── */
+      .success-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.97);
+        backdrop-filter: blur(12px);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease;
+      }
+
+      .success-overlay.visible {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .success-ring {
+        width: 88px;
+        height: 88px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent-color), #ff8a80);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.4rem;
+        animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      }
+
+      .success-ring i {
+        font-size: 2rem;
+        color: var(--white);
+      }
+
+      @keyframes popIn {
+        from { transform: scale(0); opacity: 0; }
+        to   { transform: scale(1); opacity: 1; }
+      }
+
+      .success-ref {
+        background: var(--white-smoke);
+        border-radius: 50px;
+        padding: 6px 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: var(--text-light);
+        margin: 0.7rem 0 1.6rem;
+      }
+
+      .success-actions {
+        display: flex;
+        gap: 0.9rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .btn-home {
+        padding: 12px 26px;
+        background: var(--accent-color);
+        color: var(--white);
+        border: none;
+        border-radius: 50px;
+        font-family: "Poppins", sans-serif;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-home:hover {
+        background: #ff5252;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+      }
+
+      .btn-print {
+        padding: 12px 26px;
+        background: var(--white-smoke);
+        color: var(--text-dark);
+        border: 1.5px solid #e0e0e0;
+        border-radius: 50px;
+        font-family: "Poppins", sans-serif;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.25s ease;
+      }
+
+      .btn-print:hover {
+        background: var(--white);
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+      }
+
+      /* ── Confetti ────────────────────────────────────────────── */
+      #confetti {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 9998;
+        overflow: hidden;
+      }
+
+      .c-bit {
+        position: absolute;
+        top: -12px;
+        border-radius: 2px;
+        animation: fall linear forwards;
+      }
+
+      @keyframes fall {
+        to {
+          transform: translateY(105vh) rotate(720deg);
+          opacity: 0;
+        }
+      } 
+
+      /* ── Responsive ──────────────────────────────────────────── */
+      @media (max-width: 980px) {
+        .booking-layout {
+          grid-template-columns: 1fr;
+        }
+        .booking-sidebar {
+          position: static;
+          order: -1;
+        }
+        .summary-card,
+        .tbadge {
+          display: inline-block;
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .booking-card {
+          padding: 1.5rem;
+        }
+        .pkg-grid {
+          grid-template-columns: 1fr;
+        }
+        .skill-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .addon-grid {
+          grid-template-columns: 1fr;
+        }
+        .date-pair {
+          grid-template-columns: 1fr;
+        }
+        .counter-grid {
+          grid-template-columns: 1fr;
+        }
+      } 
+    </style>
+  </head>
+
+  <body>
+    <!-- ═══════════════ NAV ════════════════════════════════════ -->
+    <nav class="top-nav nav__menu">
+      <div class="top-nav-inner">
+        <div class="menu-nav">
+          <div class="logo" onclick="location.href='./Index.html#hero'">
+            <i class="fas fa-mountain"></i>
+            <span class="logo-text horizontal">ALPINE</span>
+          </div>
+          <ul class="nav-menu horizontal">
+            <li>
+              <a href="./Index.html#experiences" data-tooltip="Experiences">
+                <i class="fas fa-star"></i>
+                <span class="nav-text">Experiences</span>
+              </a>
+            </li>
+            <li>
+              <a href="./Index.html#activities" data-tooltip="Activities">
+                <i class="fas fa-skiing"></i>
+                <span class="nav-text">Activities</span>
+              </a>
+            </li>
+            <li>
+              <a href="./Packages.html" data-tooltip="Packages">
+                <i class="fas fa-box-open"></i>
+                <span class="nav-text">Packages</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="nav-actions">
+          <button class="login-btn" aria-label="Login">
+            <i class="fas fa-user"></i>
+          </button>
+          <button class="book-btn" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">
+            Book Now
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ═══════════════ MAIN ═══════════════════════════════════ -->
+    <main class="main-content">
+
+      <!-- Page hero — reuses .page-hero from Styles-additions.css -->
+      <section class="page-hero">
+        <div class="page-hero-inner container">
+          <div class="page-hero-tag">
+            <i class="fas fa-calendar-check"></i> Reservations
+          </div>
+          <h1>Reserve Your Alpine Experience</h1>
+          <p>Secure your spot in 4 simple steps — takes under 3 minutes.</p>
+          <div class="breadcrumb">
+            <a href="./Index.html">Home</a><span>›</span>
+            <a href="./Packages.html">Packages</a><span>›</span>
+            <span>Book</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ BOOKING SECTION ═══════════════════════════════════ -->
+      <section class="inner-section" id="booking">
+        <div class="container">
+          <div class="booking-layout">
+
+            <!-- ─── LEFT: Form Card ───────────────────────────── -->
+            <div class="booking-card">
+
+              <!-- Step bar -->
+              <div class="step-nav-bar" id="stepBar">
+                <div class="step-item active" id="si1">
+                  <div class="step-circle" id="sc1"><i class="fas fa-calendar-alt"></i></div>
+                  <span class="step-label">Trip</span>
+                </div>
+                <div class="step-line" id="sl1"></div>
+                <div class="step-item" id="si2">
+                  <div class="step-circle" id="sc2"><i class="fas fa-box-open"></i></div>
+                  <span class="step-label">Package</span>
+                </div>
+                <div class="step-line" id="sl2"></div>
+                <div class="step-item" id="si3">
+                  <div class="step-circle" id="sc3"><i class="fas fa-user"></i></div>
+                  <span class="step-label">Details</span>
+                </div>
+                <div class="step-line" id="sl3"></div>
+                <div class="step-item" id="si4">
+                  <div class="step-circle" id="sc4"><i class="fas fa-credit-card"></i></div>
+                  <span class="step-label">Review</span>
+                </div>
+              </div>
+
+              <!-- ══ STEP 1 — Trip ══════════════════════════════ -->
+              <div class="step-panel active" id="sp1">
+                <div class="panel-heading">
+                  <h3>Plan your trip</h3>
+                  <p>When are you coming, and who's joining the adventure?</p>
+                </div>
+
+                <!-- Dates -->
+                <div class="date-pair">
+                  <div class="form-group" style="margin-bottom:0">
+                    <label class="form-label">Arrival Date</label>
+                    <input type="date" class="form-input" id="inArrival" />
+                    <span class="ferr" id="e-arrival">Please select an arrival date.</span>
+                  </div>
+                  <div class="form-group" style="margin-bottom:0">
+                    <label class="form-label">Departure Date</label>
+                    <input type="date" class="form-input" id="inDeparture" />
+                    <span class="ferr" id="e-departure">Select a departure after arrival.</span>
+                  </div>
+                </div>
+
+                <div id="nightPill" class="nights-pill" style="display:none">
+                  <i class="fas fa-moon"></i>
+                  <span id="nightText">0 nights</span>
+                </div>
+
+                <!-- Guests -->
+                <label class="form-label">Guests</label>
+                <div class="counter-grid">
+                  <div class="counter-tile">
+                    <div class="counter-label">
+                      <h4>Adults</h4>
+                      <p>Age 18+</p>
+                    </div>
+                    <div class="counter-row">
+                      <button class="c-btn" id="am" onclick="count('a',-1)" disabled>−</button>
+                      <span class="c-val" id="av">2</span>
+                      <button class="c-btn" id="ap" onclick="count('a',1)">+</button>
+                    </div>
+                  </div>
+                  <div class="counter-tile">
+                    <div class="counter-label">
+                      <h4>Children</h4>
+                      <p>Age 6–17</p>
+                    </div>
+                    <div class="counter-row">
+                      <button class="c-btn" id="cm" onclick="count('c',-1)" disabled>−</button>
+                      <span class="c-val" id="cv">0</span>
+                      <button class="c-btn" id="cp" onclick="count('c',1)">+</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Skill level -->
+                <label class="form-label">Ski Experience Level</label>
+                <div class="skill-grid">
+                  <div class="skill-card" data-lv="beginner"     onclick="pickLevel(this)"><i class="fas fa-seedling"></i><span>Beginner</span></div>
+                  <div class="skill-card" data-lv="intermediate" onclick="pickLevel(this)"><i class="fas fa-skiing"></i><span>Intermediate</span></div>
+                  <div class="skill-card" data-lv="advanced"     onclick="pickLevel(this)"><i class="fas fa-mountain"></i><span>Advanced</span></div>
+                  <div class="skill-card" data-lv="expert"       onclick="pickLevel(this)"><i class="fas fa-trophy"></i><span>Expert</span></div>
+                </div>
+                <span class="ferr" id="e-level">Please select your experience level.</span>
+
+                <!-- Special requirements -->
+                <div class="form-group" style="margin-top:1.2rem">
+                  <label class="form-label">
+                    Special Requirements
+                    <span style="font-weight:400;color:var(--text-light)"> (optional)</span>
+                  </label>
+                  <select class="form-select" id="inSpecial">
+                    <option value="">None</option>
+                    <option value="wheelchair">Wheelchair accessibility</option>
+                    <option value="visual">Visual impairment support</option>
+                    <option value="dietary">Dietary requirements</option>
+                    <option value="other">Other — specify in notes</option>
+                  </select>
+                </div>
+
+                <div class="step-btns">
+                  <span></span>
+                  <button class="btn-next" onclick="go(2)">
+                    Continue <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div><!-- /sp1 -->
+
+              <!-- ══ STEP 2 — Package ═══════════════════════════ -->
+              <div class="step-panel" id="sp2">
+                <div class="panel-heading">
+                  <h3>Choose your package</h3>
+                  <p>Prices update based on your dates. All packages include ski patrol, trails and shuttle service.</p>
+                </div>
+
+                <div class="pkg-grid">
+                  <div class="pkg-tile" data-pk="silver" onclick="pickPkg(this)">
+                    <div class="pkg-tile-check"><i class="fas fa-check"></i></div>
+                    <div class="pkg-tile-icon"><i class="fas fa-star-half-alt"></i></div>
+                    <div class="pkg-tile-tier">Silver</div>
+                    <div class="pkg-tile-name">Base Camp</div>
+                    <div class="pkg-tile-price" id="pr-silver">$249</div>
+                    <div class="pkg-tile-per">/ person</div>
+                  </div>
+                  <div class="pkg-tile highlighted" data-pk="gold" onclick="pickPkg(this)">
+                    <div class="pkg-tile-badge">Most Popular</div>
+                    <div class="pkg-tile-check"><i class="fas fa-check"></i></div>
+                    <div class="pkg-tile-icon"><i class="fas fa-star"></i></div>
+                    <div class="pkg-tile-tier">Gold</div>
+                    <div class="pkg-tile-name">Summit Select</div>
+                    <div class="pkg-tile-price" id="pr-gold">$449</div>
+                    <div class="pkg-tile-per">/ person</div>
+                  </div>
+                  <div class="pkg-tile" data-pk="platinum" onclick="pickPkg(this)">
+                    <div class="pkg-tile-check"><i class="fas fa-check"></i></div>
+                    <div class="pkg-tile-icon"><i class="fas fa-gem"></i></div>
+                    <div class="pkg-tile-tier">Platinum</div>
+                    <div class="pkg-tile-name">Alpine Elite</div>
+                    <div class="pkg-tile-price" id="pr-platinum">$749</div>
+                    <div class="pkg-tile-per">/ person</div>
+                  </div>
+                </div>
+                <span class="ferr" id="e-pkg">Please select a package to continue.</span>
+
+                <!-- Add-ons -->
+                <label class="form-label" style="margin-top:1.4rem;margin-bottom:0.7rem;display:block">
+                  Optional Add-ons
+                  <span style="font-weight:400;color:var(--text-light)"> (select any)</span>
+                </label>
+                <div class="addon-grid">
+                  <div class="addon-tile" data-ad="sled"  data-pp="85"  data-flat="0"   onclick="toggleAddon(this)">
+                    <div class="addon-chk"><i class="fas fa-check"></i></div>
+                    <div class="addon-ico"><i class="fas fa-dog"></i></div>
+                    <div class="addon-txt"><h4>Dog Sledding</h4><p>$85 / person</p></div>
+                  </div>
+                  <div class="addon-tile" data-ad="photo" data-pp="0"   data-flat="120"  onclick="toggleAddon(this)">
+                    <div class="addon-chk"><i class="fas fa-check"></i></div>
+                    <div class="addon-ico"><i class="fas fa-camera"></i></div>
+                    <div class="addon-txt"><h4>Pro Photo Session</h4><p>$120 flat</p></div>
+                  </div>
+                  <div class="addon-tile" data-ad="apres" data-pp="55"  data-flat="0"   onclick="toggleAddon(this)">
+                    <div class="addon-chk"><i class="fas fa-check"></i></div>
+                    <div class="addon-ico"><i class="fas fa-glass-cheers"></i></div>
+                    <div class="addon-txt"><h4>Après-Ski Package</h4><p>$55 / person</p></div>
+                  </div>
+                  <div class="addon-tile" data-ad="kids"  data-pp="70"  data-flat="0"   data-child="1" onclick="toggleAddon(this)">
+                    <div class="addon-chk"><i class="fas fa-check"></i></div>
+                    <div class="addon-ico"><i class="fas fa-child"></i></div>
+                    <div class="addon-txt"><h4>Kids' Ski School</h4><p>$70 / child / day</p></div>
+                  </div>
+                  <div class="addon-tile" data-ad="ice"   data-pp="95"  data-flat="0"   onclick="toggleAddon(this)">
+                    <div class="addon-chk"><i class="fas fa-check"></i></div>
+                    <div class="addon-ico"><i class="fas fa-snowflake"></i></div>
+                    <div class="addon-txt"><h4>Ice Climbing Intro</h4><p>$95 / person</p></div>
+                  </div>
+                  <div class="addon-tile" data-ad="dinner" data-pp="0"  data-flat="180"  onclick="toggleAddon(this)">
+                    <div class="addon-chk"><i class="fas fa-check"></i></div>
+                    <div class="addon-ico"><i class="fas fa-concierge-bell"></i></div>
+                    <div class="addon-txt"><h4>VIP Dinner</h4><p>$180 flat</p></div>
+                  </div>
+                </div>
+
+                <div class="step-btns">
+                  <button class="btn-back" onclick="go(1,true)">
+                    <i class="fas fa-arrow-left"></i> Back
+                  </button>
+                  <button class="btn-next" onclick="go(3)">
+                    Continue <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div><!-- /sp2 -->
+
+              <!-- ══ STEP 3 — Guest Details ════════════════════ -->
+              <div class="step-panel" id="sp3">
+                <div class="panel-heading">
+                  <h3>Your details</h3>
+                  <p>We'll send your booking confirmation and resort welcome pack to the email below.</p>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    <input type="text" class="form-input" id="inFirst" placeholder="Jane" />
+                    <span class="ferr" id="e-first">First name is required.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-input" id="inLast" placeholder="Smith" />
+                    <span class="ferr" id="e-last">Last name is required.</span>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="inEmail" placeholder="jane@example.com" />
+                    <span class="ferr" id="e-email">Enter a valid email address.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-input" id="inPhone" placeholder="+1 (555) 000-0000" />
+                    <span class="ferr" id="e-phone">Phone number is required.</span>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Emergency Contact Name</label>
+                    <input type="text" class="form-input" id="inEmName" placeholder="John Smith" />
+                    <span class="ferr" id="e-emname">Emergency contact required.</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Emergency Phone</label>
+                    <input type="tel" class="form-input" id="inEmPhone" placeholder="+1 (555) 000-0001" />
+                    <span class="ferr" id="e-emphone">Emergency phone required.</span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Country / Region</label>
+                  <select class="form-select" id="inCountry">
+                    <option value="">Select country…</option>
+                    <option>United States</option>
+                    <option>Canada</option>
+                    <option>United Kingdom</option>
+                    <option>Australia</option>
+                    <option>Germany</option>
+                    <option>France</option>
+                    <option>Switzerland</option>
+                    <option>Austria</option>
+                    <option>New Zealand</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    Special Requests
+                    <span style="font-weight:400;color:var(--text-light)"> (optional)</span>
+                  </label>
+                  <textarea class="form-textarea" id="inNotes" style="min-height:90px"
+                    placeholder="Dietary needs, room preferences, accessibility, celebration arrangements…"></textarea>
+                </div>
+
+                <div class="step-btns">
+                  <button class="btn-back" onclick="go(2,true)">
+                    <i class="fas fa-arrow-left"></i> Back
+                  </button>
+                  <button class="btn-next" onclick="go(4)">
+                    Review Booking <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div><!-- /sp3 -->
+
+              <!-- ══ STEP 4 — Review & Pay ════════════════════ -->
+              <div class="step-panel" id="sp4">
+                <div class="panel-heading">
+                  <h3>Review &amp; pay</h3>
+                  <p>Everything looks right? Complete your reservation below.</p>
+                </div>
+
+                <!-- Trip block -->
+                <div class="review-block">
+                  <div class="review-block-head">
+                    <span>Trip Details</span>
+                    <button class="edit-link" onclick="go(1,true)">
+                      <i class="fas fa-pen" style="font-size:0.6rem;margin-right:3px"></i> Edit
+                    </button>
+                  </div>
+                  <div id="rv-trip"></div>
+                </div>
+
+                <!-- Package block -->
+                <div class="review-block">
+                  <div class="review-block-head">
+                    <span>Package &amp; Add-ons</span>
+                    <button class="edit-link" onclick="go(2,true)">
+                      <i class="fas fa-pen" style="font-size:0.6rem;margin-right:3px"></i> Edit
+                    </button>
+                  </div>
+                  <div id="rv-pkg"></div>
+                </div>
+
+                <!-- Guest block -->
+                <div class="review-block">
+                  <div class="review-block-head">
+                    <span>Guest Details</span>
+                    <button class="edit-link" onclick="go(3,true)">
+                      <i class="fas fa-pen" style="font-size:0.6rem;margin-right:3px"></i> Edit
+                    </button>
+                  </div>
+                  <div id="rv-guest"></div>
+                </div>
+
+                <!-- Payment -->
+                <h4 style="font-size:0.88rem;font-weight:700;color:var(--text-dark);margin:1.4rem 0 0.75rem">
+                  Secure Payment
+                </h4>
+
+                <div class="pay-brands">
+                  <span class="pay-brand">VISA</span>
+                  <span class="pay-brand">MC</span>
+                  <span class="pay-brand">AMEX</span>
+                  <span class="pay-brand">PAYPAL</span>
+                  <span class="pay-secure">
+                    <i class="fas fa-lock"></i> SSL Encrypted
+                  </span>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Card Number</label>
+                  <div class="card-field">
+                    <input type="text" class="form-input" id="inCard"
+                      placeholder="1234 5678 9012 3456" maxlength="19"
+                      style="padding-right:40px" />
+                    <i class="fas fa-credit-card field-icon"></i>
+                  </div>
+                  <span class="ferr" id="e-card">Please enter a valid 16-digit card number.</span>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Cardholder Name</label>
+                    <input type="text" class="form-input" id="inCardName" placeholder="Jane Smith" />
+                    <span class="ferr" id="e-cardname">Cardholder name required.</span>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-row" style="margin-bottom:0;gap:0.7rem">
+                      <div class="form-group" style="margin-bottom:0">
+                        <label class="form-label">Expiry</label>
+                        <input type="text" class="form-input" id="inExpiry"
+                          placeholder="MM / YY" maxlength="7" />
+                        <span class="ferr" id="e-expiry">Invalid expiry date.</span>
+                      </div>
+                      <div class="form-group" style="margin-bottom:0">
+                        <label class="form-label">CVV</label>
+                        <div class="card-field">
+                          <input type="text" class="form-input" id="inCvv"
+                            placeholder="123" maxlength="4"
+                            style="padding-right:36px" />
+                          <i class="fas fa-question-circle field-icon"
+                            title="3 digits on back (4 on Amex)" style="cursor:help"></i>
+                        </div>
+                        <span class="ferr" id="e-cvv">Invalid CVV.</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="terms-row">
+                  <input type="checkbox" id="chkTerms" />
+                  <label for="chkTerms">
+                    I agree to the <a href="./Terms.html">Terms &amp; Conditions</a> and
+                    <a href="#">Cancellation Policy</a>. All guest details are accurate.
+                  </label>
+                </div>
+                <span class="ferr" id="e-terms">You must agree to the terms to proceed.</span>
+
+                <div class="step-btns">
+                  <button class="btn-back" onclick="go(3,true)">
+                    <i class="fas fa-arrow-left"></i> Back
+                  </button>
+                  <button class="btn-next" id="payBtn" onclick="submitBooking()" style="padding:14px 34px">
+                    <i class="fas fa-lock" style="font-size:0.75rem"></i> Complete Reservation
+                  </button>
+                </div>
+              </div><!-- /sp4 -->
+
+            </div><!-- /booking-card -->
+
+            <!-- ─── RIGHT: Sidebar ────────────────────────────── -->
+            <aside class="booking-sidebar">
+
+              <!-- Summary card -->
+              <div class="summary-card">
+                <div class="summary-card-title">
+                  <i class="fas fa-receipt"></i> Booking Summary
+                </div>
+                <div id="sumBody">
+                  <div class="sum-empty">
+                    <i class="fas fa-calendar-alt"></i>
+                    Fill in your dates and guests to see a live price estimate.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Trust badges — reuse .info-card structure feel -->
+              <div class="tbadge">
+                <i class="fas fa-shield-alt"></i>
+                <p><strong>Free cancellation</strong> up to 14 days before arrival. No questions asked.</p>
+              </div>
+              <div class="tbadge">
+                <i class="fas fa-lock"></i>
+                <p><strong>Secure checkout.</strong> Payment details are encrypted end-to-end.</p>
+              </div>
+              <div class="tbadge">
+                <i class="fas fa-headset"></i>
+                <p><strong>24 / 7 concierge</strong> support available before and during your stay.</p>
+              </div>
+              <div class="tbadge">
+                <i class="fas fa-tag"></i>
+                <p><strong>Best price guarantee.</strong> Find it cheaper, we'll match it.</p>
+              </div>
+
+            </aside><!-- /sidebar -->
+
+          </div><!-- /booking-layout -->
+        </div>
+      </section>
+
+      <!-- Footer — identical to Index.html -->
+      <footer class="footer">
+        <div class="container">
+          <div class="footer-content">
+            <div class="footer-section">
+              <h3>Stay Connected</h3>
+              <div class="newsletter">
+                <input type="email" placeholder="Enter your email" class="newsletter-input" />
+                <button class="newsletter-btn">Subscribe</button>
+              </div>
+            </div>
+            <div class="footer-section">
+              <h3>Quick Links</h3>
+              <ul>
+                <li><a href="./Index.html">Home</a></li>
+                <li><a href="./Packages.html">Packages</a></li>
+                <li><a href="./About.html">About</a></li>
+                <li><a href="./Contact.html">Contact</a></li>
+              </ul>
+            </div>
+            <div class="footer-section">
+              <h3>Location</h3>
+              <div class="location-info">
+                <p>Alpine Resort Mountain View, CO 80424</p>
+              </div>
+            </div>
+            <div class="footer-section">
+              <h3>Follow Us</h3>
+              <div class="footer-social">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <p>&copy; 2024 Alpine Adventures. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+
+    </main><!-- /main-content -->
+
+    <!-- ═════════════ SUCCESS OVERLAY ══════════════════════════ -->
+    <div class="success-overlay" id="successOverlay">
+      <div class="success-ring"><i class="fas fa-check"></i></div>
+      <h2 style="font-size:1.8rem;font-weight:700;color:var(--text-dark);margin-bottom:0.4rem">
+        Booking Confirmed!
+      </h2>
+      <p style="color:var(--text-light);max-width:340px;line-height:1.75;margin-bottom:0.3rem">
+        Your adventure is reserved. A confirmation and resort welcome guide
+        will arrive in your inbox shortly.
+      </p>
+      <div class="success-ref" id="successRef">REF: ALP-XXXXXX</div>
+      <div class="success-actions">
+        <button class="btn-home" onclick="location.href='./Index.html'">
+          <i class="fas fa-home"></i> Back to Home
+        </button>
+        <button class="btn-print" onclick="window.print()">
+          <i class="fas fa-print"></i> Print Receipt
+        </button>
+      </div>
+    </div>
+    <div id="confetti"></div>
+
+    <!-- ═════════════════ SCRIPT ════════════════════════════════ -->
+    <script>
+    /* ═══════════════════════════════════════════════════════════
+       STATE — single source of truth
+    ═══════════════════════════════════════════════════════════ */
+    const S = {
+      step     : 1,
+      arrival  : '',
+      departure: '',
+      nights   : 0,
+      adults   : 2,
+      children : 0,
+      level    : '',
+      special  : '',
+      pkg      : '',
+      addons   : new Set(),
+      first    : '', last : '', email: '', phone : '',
+      emName   : '', emPhone: '', country: '', notes: ''
+    }; 
+
+    /* Night rates per person */
+    const PKG = {
+      silver   : { label: 'Silver — Base Camp',     rate: 124 },
+      gold     : { label: 'Gold — Summit Select',   rate: 224 },
+      platinum : { label: 'Platinum — Alpine Elite',rate: 374 }
+    }; 
+
+    /* ═══════════════════════════════════════════════════════════
+       INIT
+    ═══════════════════════════════════════════════════════════ */
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+
+      /* min dates 
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('inArrival').min   = today;
+      document.getElementById('inDeparture').min = today;
+
+      document.getElementById('inArrival').addEventListener('change', handleDates);
+      document.getElementById('inDeparture').addEventListener('change', handleDates); */
+
+      /* card number auto-format */
+      document.getElementById('inCard').addEventListener('input', e => {
+        let v = e.target.value.replace(/\D/g, '').slice(0, 16);
+        e.target.value = v.replace(/(.{4})/g, '$1 ').trim();
+      }); 
+
+      /* expiry auto-format */
+      document.getElementById('inExpiry').addEventListener('input', e => {
+        let v = e.target.value.replace(/\D/g, '');
+        if (v.length > 2) v = v.slice(0, 2) + ' / ' + v.slice(2, 4);
+        e.target.value = v; 
+      }); 
+
+      /* clear error on input */
+      document.querySelectorAll('.form-input, .form-select, .form-textarea').forEach(el => {
+        el.addEventListener('input', () => el.classList.remove('err'));
+      });
+
+      renderSummary();
+    }); 
+
+    /* ═══════════════════════════════════════════════════════════
+       DATES
+    ═══════════════════════════════════════════════════════════ */
+    function handleDates() {
+      const a = document.getElementById('inArrival').value;
+      const d = document.getElementById('inDeparture').value;
+
+      if (a) {
+        const minDep = new Date(a);
+        minDep.setDate(minDep.getDate() + 1);
+        document.getElementById('inDeparture').min = minDep.toISOString().split('T')[0];
+      }
+
+      if (a && d) {
+        const nights = Math.round(
+          (new Date(d) - new Date(a)) / 86400000
+        );
+        if (nights > 0) {
+          S.arrival = a; S.departure = d; S.nights = nights;
+          const pill = document.getElementById('nightPill');
+          pill.style.display = 'inline-flex';
+          document.getElementById('nightText').textContent =
+            `${nights} night${nights !== 1 ? 's' : ''} · ${fmtDate(a)} → ${fmtDate(d)}`;
+          refreshPrices();
+          renderSummary();
+        }
+      }
+    }
+
+    function fmtDate(s) {
+      return new Date(s + 'T12:00').toLocaleDateString('en-US', {month:'short', day:'numeric'});
+    } 
+
+    /* ═══════════════════════════════════════════════════════════
+       COUNTERS
+    ═══════════════════════════════════════════════════════════ */
+    function count(type, delta) {
+      if (type === 'a') {
+        S.adults = Math.max(1, Math.min(10, S.adults + delta));
+        document.getElementById('av').textContent = S.adults;
+        document.getElementById('am').disabled = S.adults <= 1;
+        document.getElementById('ap').disabled = S.adults >= 10;
+      } else {
+        S.children = Math.max(0, Math.min(8, S.children + delta));
+        document.getElementById('cv').textContent = S.children;
+        document.getElementById('cm').disabled = S.children <= 0;
+        document.getElementById('cp').disabled = S.children >= 8;
+      }
+      refreshPrices();
+      renderSummary();
+    } 
+
+    /* ═══════════════════════════════════════════════════════════
+       SKILL LEVEL
+    ═══════════════════════════════════════════════════════════ */
+    function pickLevel(el) {
+      document.querySelectorAll('.skill-card').forEach(c => c.classList.remove('sel'));
+      el.classList.add('sel');
+      S.level = el.dataset.lv;
+      hide('e-level');
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       PACKAGE
+    ═══════════════════════════════════════════════════════════ */
+    function pickPkg(el) {
+      document.querySelectorAll('.pkg-tile').forEach(c => c.classList.remove('sel'));
+      el.classList.add('sel');
+      S.pkg = el.dataset.pk;
+      hide('e-pkg');
+      renderSummary();
+    }
+
+    function refreshPrices() {
+      if (!S.nights) return;
+      Object.keys(PKG).forEach(k => {
+        const total = PKG[k].rate * S.nights * (S.adults + S.children * 0.6);
+        document.getElementById(`pr-${k}`).textContent = '$' + Math.round(total).toLocaleString();
+      });
+    } 
+
+    /* ═══════════════════════════════════════════════════════════
+       ADD-ONS
+    ═══════════════════════════════════════════════════════════ */
+    function toggleAddon(el) {
+      const key = el.dataset.ad;
+      if (S.addons.has(key)) {
+        S.addons.delete(key);
+        el.classList.remove('sel');
+      } else {
+        S.addons.add(key);
+        el.classList.add('sel');
+      }
+      renderSummary();
+    } 
+
+    /* ═══════════════════════════════════════════════════════════
+       PRICE CALCULATION
+    ═══════════════════════════════════════════════════════════ */
+    function calcPrice() {
+      let base = 0, addons = 0;
+      if (S.pkg && S.nights > 0) {
+        base = Math.round(PKG[S.pkg].rate * S.nights * (S.adults + S.children * 0.6));
+      }
+      S.addons.forEach(key => {
+        const el = document.querySelector(`[data-ad="${key}"]`);
+        if (!el) return;
+        const pp    = +el.dataset.pp;
+        const flat  = +el.dataset.flat;
+        const child = !!el.dataset.child;
+        if (flat > 0)       addons += flat;
+        else if (child)     addons += pp * S.children * Math.max(1, S.nights);
+        else                addons += pp * S.adults;
+      });
+      return { base, addons: Math.round(addons), total: Math.round(base + addons) };
+    } 
+
+    /* ═══════════════════════════════════════════════════════════
+       SUMMARY SIDEBAR
+    ═══════════════════════════════════════════════════════════ */
+    function renderSummary() {
+      const body  = document.getElementById('sumBody');
+      const empty = !S.arrival && !S.pkg;
+
+      if (empty) {
+        body.innerHTML = `<div class="sum-empty"><i class="fas fa-calendar-alt"></i>Fill in your dates and guests to see a live price estimate.</div>`;
+        return;
+      }
+
+      let html = '';
+
+      if (S.arrival && S.departure) {
+        html += sr('Check-in',  fmtDate(S.arrival));
+        html += sr('Check-out', fmtDate(S.departure));
+        html += sr('Duration',  `${S.nights} night${S.nights !== 1 ? 's' : ''}`);
+      }
+
+      const guests = `${S.adults} adult${S.adults > 1 ? 's' : ''}` +
+                     (S.children ? ` · ${S.children} child${S.children > 1 ? 'ren' : ''}` : '');
+      html += sr('Guests', guests);
+
+      if (S.level) html += sr('Level', cap(S.level));
+
+      if (S.pkg) {
+        const { base, addons, total } = calcPrice();
+        html += `<hr class="sum-divider">`;
+        html += sr('Package', PKG[S.pkg].label);
+        if (base > 0) html += sr('Package subtotal', `$${base.toLocaleString()}`);
+
+        if (S.addons.size > 0) {
+          html += `<hr class="sum-divider">`;
+          S.addons.forEach(key => {
+            const el = document.querySelector(`[data-ad="${key}"]`);
+            if (!el) return;
+            const name  = el.querySelector('h4').textContent;
+            const pp    = +el.dataset.pp;
+            const flat  = +el.dataset.flat;
+            const child = !!el.dataset.child;
+            let price;
+            if (flat > 0)       price = `$${flat}`;
+            else if (child)     price = `$${pp * S.children * Math.max(1, S.nights)}`;
+            else                price = `$${pp * S.adults}`;
+            html += sr(`· ${name}`, price);
+          });
+        }
+
+        if (total > 0) {
+          html += `<hr class="sum-divider">`;
+          html += `<div class="sum-total"><span class="sum-total-lbl">Total</span><span class="sum-total-amt">$${total.toLocaleString()}</span></div>`;
+          html += `<p style="font-size:0.7rem;color:var(--text-light);text-align:right;margin-top:4px">Taxes & fees included</p>`;
+        }
+      }
+
+      body.innerHTML = html;
+    }
+
+    function sr(l, v) {
+      return `<div class="sum-row"><span class="sum-lbl">${l}</span><span class="sum-val">${v}</span></div>`;
+    }
+
+    function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); } 
+
+    /* ═══════════════════════════════════════════════════════════
+       STEP NAVIGATION
+    ═══════════════════════════════════════════════════════════ */
+    function go(target, isBack = false) {
+      if (!isBack && !validate(S.step)) return; 
+
+      /* animate out */
+      const cur = document.getElementById(`sp${S.step}`);
+      cur.classList.remove('active', 'back');
+      cur.style.opacity = '0';
+
+      setTimeout(() => {
+        cur.style.opacity = '';
+        cur.style.display = 'none';
+
+        S.step = target;
+        const next = document.getElementById(`sp${target}`);
+        next.style.display = 'block';
+        if (isBack) next.classList.add('back');
+        next.classList.add('active');
+
+        updateBar();
+        if (target === 4) fillReview();
+        document.getElementById('booking').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 200);
+    }
+
+    function updateBar() {
+      for (let i = 1; i <= 4; i++) {
+        const item   = document.getElementById(`si${i}`);
+        const circle = document.getElementById(`sc${i}`);
+        const icons  = ['fa-calendar-alt', 'fa-box-open', 'fa-user', 'fa-credit-card'];
+
+        item.classList.remove('active', 'done');
+
+        if (i < S.step) {
+          item.classList.add('done');
+          circle.innerHTML = '<i class="fas fa-check"></i>';
+        } else if (i === S.step) {
+          item.classList.add('active');
+          circle.innerHTML = `<i class="fas ${icons[i - 1]}"></i>`;
+        } else {
+          circle.innerHTML = `<i class="fas ${icons[i - 1]}"></i>`;
+        }
+      }
+
+      for (let i = 1; i <= 3; i++) {
+        const line = document.getElementById(`sl${i}`);
+        line.classList.toggle('done', i < S.step);
+      }
+    } 
+
+    /* ═══════════════════════════════════════════════════════════
+       VALIDATION
+    ═══════════════════════════════════════════════════════════ */
+    function validate(step) {
+      let ok = true;
+
+      if (step === 1) {
+        if (!S.arrival)         { show('e-arrival');  markErr('inArrival');   ok = false; }
+        if (!S.departure || S.nights <= 0) { show('e-departure'); markErr('inDeparture'); ok = false; }
+        if (!S.level)           { show('e-level');    ok = false; }
+      }
+
+      if (step === 2) {
+        if (!S.pkg)             { show('e-pkg');      ok = false; }
+      }
+
+      if (step === 3) {
+        const f  = v('inFirst'), l  = v('inLast');
+        const em = v('inEmail'), ph = v('inPhone');
+        const en = v('inEmName'), ep = v('inEmPhone');
+        const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em);
+
+        if (!f)       { show('e-first');  markErr('inFirst');   ok = false; }
+        if (!l)       { show('e-last');   markErr('inLast');    ok = false; }
+        if (!emailOk) { show('e-email');  markErr('inEmail');   ok = false; }
+        if (!ph)      { show('e-phone');  markErr('inPhone');   ok = false; }
+        if (!en)      { show('e-emname'); markErr('inEmName');  ok = false; }
+        if (!ep)      { show('e-emphone');markErr('inEmPhone'); ok = false; }
+
+        if (ok) {
+          S.first = f; S.last = l; S.email = em; S.phone = ph;
+          S.emName = en; S.emPhone = ep;
+          S.country = document.getElementById('inCountry').value;
+          S.notes   = document.getElementById('inNotes').value.trim();
+        }
+      }
+
+      return ok;
+    }
+
+    function v(id) { return document.getElementById(id).value.trim(); }
+    function show(id) { const el = document.getElementById(id); if (el) el.classList.add('show'); }
+    function hide(id) { const el = document.getElementById(id); if (el) el.classList.remove('show'); }
+    function markErr(id) { const el = document.getElementById(id); if (el) el.classList.add('err'); } 
+
+    /* ═══════════════════════════════════════════════════════════
+       REVIEW POPULATION
+    ═══════════════════════════════════════════════════════════ */
+    function fillReview() { 
+      /* Trip */
+      let t = '';
+      t += rr('Dates',    `${fmtDate(S.arrival)} → ${fmtDate(S.departure)}`);
+      t += rr('Duration', `${S.nights} night${S.nights !== 1 ? 's' : ''}`);
+      t += rr('Guests',   `${S.adults} adult${S.adults > 1 ? 's' : ''}` + (S.children ? ` + ${S.children} child${S.children > 1 ? 'ren' : ''}` : ''));
+      t += rr('Skill',    cap(S.level));
+      document.getElementById('rv-trip').innerHTML = t; 
+
+      /* Package */
+      let p = '';
+      p += rr('Package', PKG[S.pkg].label);
+      if (S.addons.size > 0) {
+        const names = [...S.addons].map(k => document.querySelector(`[data-ad="${k}"] h4`).textContent);
+        p += rr('Add-ons', names.join(', '));
+      } else {
+        p += rr('Add-ons', 'None selected');
+      }
+      const { total } = calcPrice();
+      p += rr('Total', `<strong style="color:var(--accent-color)">$${total.toLocaleString()}</strong>`);
+      document.getElementById('rv-pkg').innerHTML = p; 
+
+      /* Guest */
+      let g = '';
+      g += rr('Name',      `${S.first} ${S.last}`);
+      g += rr('Email',     S.email);
+      g += rr('Phone',     S.phone);
+      g += rr('Emergency', `${S.emName} (${S.emPhone})`);
+      if (S.country) g += rr('Country', S.country);
+      if (S.notes)   g += rr('Notes',   S.notes);
+      document.getElementById('rv-guest').innerHTML = g;
+    }
+
+    function rr(label, value) {
+      return `<div class="review-row"><span>${label}</span><span>${value}</span></div>`;
+    } 
+
+    /* ═══════════════════════════════════════════════════════════
+       SUBMIT / PAYMENT
+    ═══════════════════════════════════════════════════════════ */
+    function submitBooking() {
+      let ok = true;
+
+      const card   = v('inCard').replace(/\s/g, '');
+      const cname  = v('inCardName');
+      const expiry = v('inExpiry');
+      const cvv    = v('inCvv');
+      const terms  = document.getElementById('chkTerms').checked;
+
+      if (card.length < 16)              { show('e-card');    markErr('inCard');    ok = false; }
+      if (!cname)                        { show('e-cardname');markErr('inCardName');ok = false; }
+      if (!/^\d{2} \/ \d{2}$/.test(expiry)) { show('e-expiry');  markErr('inExpiry'); ok = false; }
+      if (cvv.length < 3)                { show('e-cvv');     markErr('inCvv');    ok = false; }
+      if (!terms)                        { show('e-terms');   ok = false; }
+
+      if (!ok) return;
+
+      const btn = document.getElementById('payBtn');
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing…';
+      btn.disabled  = true;
+
+      setTimeout(triggerSuccess, 1800); 
+    } 
+
+    /* ═══════════════════════════════════════════════════════════
+       SUCCESS
+    ═══════════════════════════════════════════════════════════ */
+    function triggerSuccess() {
+      const ref = 'ALP-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+      document.getElementById('successRef').textContent = `REF: ${ref}`;
+      document.getElementById('successOverlay').classList.add('visible');
+      launchConfetti();
+    }
+
+    function launchConfetti() {
+      const wrap   = document.getElementById('confetti');
+      const colors = ['#ff6b6b', '#87ceeb', '#e0f7fa', '#ffd700', '#ff8a80', '#b2ebf2', '#ffccbc'];
+
+      for (let i = 0; i < 90; i++) {
+        const bit = document.createElement('div');
+        bit.className = 'c-bit';
+        const size = 5 + Math.random() * 7;
+        bit.style.cssText = `
+          left:${Math.random() * 100}vw;
+          width:${size}px; height:${size}px;
+          background:${colors[Math.floor(Math.random() * colors.length)]};
+          border-radius:${Math.random() > 0.5 ? '50%' : '2px'};
+          animation-duration:${1.4 + Math.random() * 2.4}s;
+          animation-delay:${Math.random() * 0.9}s;
+          opacity:1;
+        `;
+        wrap.appendChild(bit);
+      }
+      setTimeout(() => { wrap.innerHTML = ''; }, 5000);
+    } 
+
+    /* ═══════════════════════════════════════════════════════════
+       RIPPLE (mirrors Index.js pattern)
+    ═══════════════════════════════════════════════════════════ */
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('.btn-next, .cta-button, .btn-home');
+      if (!btn) return;
+      const r   = btn.getBoundingClientRect();
+      const sz  = Math.max(r.width, r.height);
+      const rip = document.createElement('span');
+      rip.style.cssText = `
+        position:absolute;width:${sz}px;height:${sz}px;
+        left:${e.clientX - r.left - sz / 2}px;
+        top:${e.clientY - r.top - sz / 2}px;
+        background:rgba(255,255,255,0.28);border-radius:50%;
+        transform:scale(0);animation:_rpl 0.6s linear;pointer-events:none;
+      `;
+      btn.style.position = 'relative';
+      btn.style.overflow = 'hidden';
+      btn.appendChild(rip);
+      setTimeout(() => rip.remove(), 600);
+    });
+
+    const _rplStyle = document.createElement('style');
+    _rplStyle.textContent = `@keyframes _rpl{to{transform:scale(4);opacity:0}}`;
+    document.head.appendChild(_rplStyle); 
+
+    /* ═══════════════════════════════════════════════════════════
+       NEWSLETTER (mirrors Index.js)
+    ═══════════════════════════════════════════════════════════ */
+    const nlBtn   = document.querySelector('.newsletter-btn');
+    const nlInput = document.querySelector('.newsletter-input');
+    if (nlBtn && nlInput) {
+      nlBtn.addEventListener('click', () => {
+        const email = nlInput.value.trim();
+        if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          nlBtn.textContent      = 'Subscribed!';
+          nlBtn.style.background = '#4CAF50';
+          nlInput.value          = '';
+          setTimeout(() => {
+            nlBtn.textContent      = 'Subscribe';
+            nlBtn.style.background = '';
+          }, 3000);
+        } else {
+          alert('Please enter a valid email address.');
+        }
+      });
+    } 
+    </script>
+    <!-- <script src="./Index.js"></script> -->
+
+  </body>
+</html>
