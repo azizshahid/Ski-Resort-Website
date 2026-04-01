@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accommodations — Alpine Adventures</title>
+    <link rel="stylesheet" href="./CSS/Styles-additions.css" />
+    <link rel="stylesheet" href="./CSS/Styles.css" />
+    <link rel="stylesheet" href="./CSS/Accommodations.css">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- ═══════════════════ NAV ═══════════════════════════════════════ -->
+    <nav class="top-nav nav__menu">
+      <div class="top-nav-inner">
+        <div class="menu-nav">
+          <div class="logo" onclick="location.href = './Index.html#hero'">
+            <i class="fas fa-mountain"></i>
+            <span class="logo-text horizontal">ALPINE</span>
+          </div>
+          <ul class="nav-menu horizontal">
+            <li>
+              <a href="./Index.html#experiences" data-tooltip="Experiences"
+                ><i class="fas fa-star"></i
+                ><span class="nav-text">Experiences</span></a
+              >
+            </li>
+            <li>
+              <a href="./Index.html#activities" data-tooltip="Activities"
+                ><i class="fas fa-skiing"></i
+                ><span class="nav-text">Activities</span></a
+              >
+            </li>
+            <li>
+              <a href="./Packages.html" data-tooltip="Packages"
+                ><i class="fas fa-box-open"></i
+                ><span class="nav-text">Packages</span></a
+              >
+            </li>
+            <li>
+              <a
+                href="./Accommodations.html"
+                data-tooltip="Stay"
+                class="active-link"
+                ><i class="fas fa-home"></i
+                ><span class="nav-text">Stay</span></a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="nav-actions">
+          <button class="login-btn" aria-label="Login">
+            <i class="fas fa-user"></i>
+          </button>
+          <button class="book-btn" onclick="location.href = './Booking.html'">
+            Book Now
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ═══════════════════ HERO ══════════════════════════════════════ -->
+    <section class="acc-hero">
+      <svg
+        class="acc-hero-mountains"
+        viewBox="0 0 1440 70"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 70 L120 20 L240 50 L360 5 L500 40 L620 10 L740 45 L860 0 L980 35 L1100 15 L1220 42 L1340 8 L1440 30 L1440 70Z"
+          fill="#fff"
+        />
+      </svg>
+      <div class="acc-hero-inner">
+        <div class="page-hero-tag">
+          <i class="fas fa-home"></i> Accommodations
+        </div>
+        <h1>Where the Mountain Meets<br />Luxury Living</h1>
+        <p>
+          Handpicked cabins, chalets &amp; suites — each one steps from the
+          slopes.
+        </p>
+        <div class="breadcrumb" style="margin-top: 1.2rem">
+          <a href="./Index.html">Home</a><span>›</span
+          ><span>Accommodations</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ STATS STRIP ═══════════════════════════════ -->
+    <div class="acc-stats">
+      <div class="acc-stats-inner">
+        <div class="acc-stat">
+          <span class="acc-stat-num">8</span
+          ><span class="acc-stat-lbl">Properties</span>
+        </div>
+        <div class="acc-stat">
+          <span class="acc-stat-num">4.8★</span
+          ><span class="acc-stat-lbl">Avg Rating</span>
+        </div>
+        <div class="acc-stat">
+          <span class="acc-stat-num">$159</span
+          ><span class="acc-stat-lbl">From / Night</span>
+        </div>
+        <div class="acc-stat">
+          <span class="acc-stat-num">14</span
+          ><span class="acc-stat-lbl">Days Free Cancel</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════ MAIN LAYOUT ═══════════════════════════════ -->
+    <div class="container">
+      <div class="acc-layout">
+        <!-- FILTER SIDEBAR -->
+        <aside class="filter-panel" id="filterPanel">
+          <div class="filter-header">
+            <h3>Filters</h3>
+            <button
+              class="clear-btn"
+              id="clearAllBtn"
+              onclick="clearAllFilters()"
+            >
+              Clear all
+            </button>
+          </div>
+
+          <div class="filter-section">
+            <div class="filter-section-title">Cabin Type</div>
+            <div class="type-chips" id="typeChips">
+              <button
+                class="type-chip active"
+                data-type="all"
+                onclick="filterType(this)"
+              >
+                All Properties <span class="type-chip-count">8</span>
+              </button>
+              <button
+                class="type-chip"
+                data-type="Cozy Cabin"
+                onclick="filterType(this)"
+              >
+                Cozy Cabin <span class="type-chip-count">3</span>
+              </button>
+              <button
+                class="type-chip"
+                data-type="Family Lodge"
+                onclick="filterType(this)"
+              >
+                Family Lodge <span class="type-chip-count">2</span>
+              </button>
+              <button
+                class="type-chip"
+                data-type="Luxury Chalet"
+                onclick="filterType(this)"
+              >
+                Luxury Chalet <span class="type-chip-count">1</span>
+              </button>
+              <button
+                class="type-chip"
+                data-type="Studio Loft"
+                onclick="filterType(this)"
+              >
+                Studio Loft <span class="type-chip-count">1</span>
+              </button>
+              <button
+                class="type-chip"
+                data-type="Penthouse Suite"
+                onclick="filterType(this)"
+              >
+                Penthouse Suite <span class="type-chip-count">1</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="filter-section">
+            <div class="filter-section-title">Guests</div>
+            <div class="guest-chips">
+              <button
+                class="guest-chip"
+                data-guests="1-2"
+                onclick="filterGuests(this)"
+              >
+                1 – 2
+              </button>
+              <button
+                class="guest-chip"
+                data-guests="3-4"
+                onclick="filterGuests(this)"
+              >
+                3 – 4
+              </button>
+              <button
+                class="guest-chip"
+                data-guests="5-6"
+                onclick="filterGuests(this)"
+              >
+                5 – 6
+              </button>
+              <button
+                class="guest-chip"
+                data-guests="7+"
+                onclick="filterGuests(this)"
+              >
+                7 +
+              </button>
+            </div>
+          </div>
+
+          <div class="filter-section">
+            <div class="filter-section-title">Price per Night</div>
+            <div class="price-chips">
+              <button
+                class="price-chip"
+                data-price="0-200"
+                onclick="filterPrice(this)"
+              >
+                <span class="price-chip-dot"></span>Under $200
+              </button>
+              <button
+                class="price-chip"
+                data-price="200-350"
+                onclick="filterPrice(this)"
+              >
+                <span class="price-chip-dot"></span>$200 – $350
+              </button>
+              <button
+                class="price-chip"
+                data-price="350-500"
+                onclick="filterPrice(this)"
+              >
+                <span class="price-chip-dot"></span>$350 – $500
+              </button>
+              <button
+                class="price-chip"
+                data-price="500-9999"
+                onclick="filterPrice(this)"
+              >
+                <span class="price-chip-dot"></span>$500 +
+              </button>
+            </div>
+          </div>
+
+          <div class="filter-section">
+            <div class="filter-section-title">Amenities</div>
+            <div class="amenity-list">
+              <label
+                class="amenity-item"
+                onclick="filterAmenity(this)"
+                data-amenity="Fireplace"
+              >
+                <div class="amenity-box"><i class="fas fa-check"></i></div>
+                <i class="amenity-icon fas fa-fire"></i
+                ><span class="amenity-lbl">Fireplace</span>
+              </label>
+              <label
+                class="amenity-item"
+                onclick="filterAmenity(this)"
+                data-amenity="Hot Tub"
+              >
+                <div class="amenity-box"><i class="fas fa-check"></i></div>
+                <i class="amenity-icon fas fa-hot-tub"></i
+                ><span class="amenity-lbl">Hot Tub</span>
+              </label>
+              <label
+                class="amenity-item"
+                onclick="filterAmenity(this)"
+                data-amenity="Mountain View"
+              >
+                <div class="amenity-box"><i class="fas fa-check"></i></div>
+                <i class="amenity-icon fas fa-mountain"></i
+                ><span class="amenity-lbl">Mountain View</span>
+              </label>
+              <label
+                class="amenity-item"
+                onclick="filterAmenity(this)"
+                data-amenity="Ski-in/Ski-out"
+              >
+                <div class="amenity-box"><i class="fas fa-check"></i></div>
+                <i class="amenity-icon fas fa-skiing"></i
+                ><span class="amenity-lbl">Ski-in / Ski-out</span>
+              </label>
+              <label
+                class="amenity-item"
+                onclick="filterAmenity(this)"
+                data-amenity="Pet Friendly"
+              >
+                <div class="amenity-box"><i class="fas fa-check"></i></div>
+                <i class="amenity-icon fas fa-paw"></i
+                ><span class="amenity-lbl">Pet Friendly</span>
+              </label>
+              <label
+                class="amenity-item"
+                onclick="filterAmenity(this)"
+                data-amenity="Full Kitchen"
+              >
+                <div class="amenity-box"><i class="fas fa-check"></i></div>
+                <i class="amenity-icon fas fa-utensils"></i
+                ><span class="amenity-lbl">Full Kitchen</span>
+              </label>
+            </div>
+          </div>
+        </aside>
+        <div
+          class="filter-mob-overlay"
+          id="mobOverlay"
+          onclick="closeMobFilter()"
+        ></div>
+
+        <!-- RESULTS COLUMN -->
+        <div>
+          <div class="acc-toolbar">
+            <div class="toolbar-left">
+              <button class="filter-mob-toggle" onclick="openMobFilter()">
+                <i class="fas fa-sliders-h"></i> Filters
+                <span class="filter-badge" id="filterBadge">0</span>
+              </button>
+              <span class="result-count"
+                ><strong id="resultCount">8</strong> properties found</span
+              >
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.7rem">
+              <select
+                class="sort-select"
+                id="sortSelect"
+                onchange="applySort()"
+              >
+                <option value="featured">Featured</option>
+                <option value="price-asc">Price: Low → High</option>
+                <option value="price-desc">Price: High → Low</option>
+                <option value="rating">Top Rated</option>
+                <option value="sleeps">Sleeps Most</option>
+              </select>
+              <div class="view-toggles">
+                <button
+                  class="view-btn active"
+                  id="gridBtn"
+                  onclick="setView('grid')"
+                  title="Grid view"
+                >
+                  <i class="fas fa-th-large"></i>
+                </button>
+                <button
+                  class="view-btn"
+                  id="listBtn"
+                  onclick="setView('list')"
+                  title="List view"
+                >
+                  <i class="fas fa-list"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="active-pills" id="activePills"></div>
+          <div class="cabin-grid" id="cabinGrid"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>Stay Connected</h3>
+            <div class="newsletter">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                class="newsletter-input"
+              />
+              <button class="newsletter-btn">Subscribe</button>
+            </div>
+          </div>
+          <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="./Index.html">Home</a></li>
+              <li><a href="./Packages.html">Packages</a></li>
+              <li><a href="./Accommodations.html">Accommodations</a></li>
+              <li><a href="./Booking.html">Book Now</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Location</h3>
+            <div class="location-info">
+              <p>Alpine Resort Mountain View, CO 80424</p>
+            </div>
+          </div>
+          <div class="footer-section">
+            <h3>Follow Us</h3>
+            <div class="footer-social">
+              <a href="#"><i class="fab fa-facebook"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 Alpine Adventures. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- DETAIL DRAWER -->
+    <div
+      class="drawer-overlay"
+      id="drawerOverlay"
+      onclick="closeDrawer()"
+    ></div>
+    <div class="cabin-drawer" id="cabinDrawer">
+      <div class="drawer-close">
+        <span class="drawer-close-label">Property Details</span>
+        <button class="drawer-close-btn" onclick="closeDrawer()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="drawer-img" id="drawerImg"></div>
+      <div class="drawer-content" id="drawerContent"></div>
+      <div class="drawer-cta" id="drawerCta"></div>
+    </div>
+
+    <script src="./JS/Accommodations.js"></script>
+  </body>
+</html>
