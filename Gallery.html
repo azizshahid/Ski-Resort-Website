@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gallery — Alpine Adventures</title>
+    <link rel="stylesheet" href="./CSS/Styles.css" />
+    <link rel="stylesheet" href="./CSS/Styles-additions.css" />
+    <link rel="stylesheet" href="./CSS/Gallery.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="gallery-page">
+    <!-- ═══════════════ NAV ════════════════════════════════════════ -->
+    <nav
+      class="top-nav nav__menu"
+      style="
+        background: rgba(20, 20, 20, 0.95);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      "
+    >
+      <div class="top-nav-inner">
+        <div class="menu-nav">
+          <div
+            class="logo"
+            onclick="location.href = './Index.html#hero'"
+            style="color: var(--accent-color)"
+          >
+            <i class="fas fa-mountain"></i>
+            <span class="logo-text horizontal">ALPINE</span>
+          </div>
+          <ul class="nav-menu horizontal">
+            <li>
+              <a
+                href="./Index.html#experiences"
+                data-tooltip="Experiences"
+                style="color: rgba(255, 255, 255, 0.5)"
+                ><i class="fas fa-star"></i
+                ><span class="nav-text">Experiences</span></a
+              >
+            </li>
+            <li>
+              <a
+                href="./Index.html#activities"
+                data-tooltip="Activities"
+                style="color: rgba(255, 255, 255, 0.5)"
+                ><i class="fas fa-skiing"></i
+                ><span class="nav-text">Activities</span></a
+              >
+            </li>
+            <li>
+              <a
+                href="./Packages.html"
+                data-tooltip="Packages"
+                style="color: rgba(255, 255, 255, 0.5)"
+                ><i class="fas fa-box-open"></i
+                ><span class="nav-text">Packages</span></a
+              >
+            </li>
+            <li>
+              <a
+                href="./Gallery.html"
+                data-tooltip="Gallery"
+                class="active-link"
+                ><i class="fas fa-images"></i
+                ><span class="nav-text">Gallery</span></a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="nav-actions">
+          <button
+            class="login-btn"
+            aria-label="Login"
+            style="
+              border-color: rgba(255, 255, 255, 0.2);
+              color: rgba(255, 255, 255, 0.5);
+            "
+          >
+            <i class="fas fa-user"></i>
+          </button>
+          <button class="book-btn" onclick="location.href = './Booking.html'">
+            Book Now
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ═══════════════ HERO ══════════════════════════════════════ -->
+    <section class="gal-hero">
+      <div class="gal-hero-bg" aria-hidden="true">
+        <svg
+          viewBox="0 0 1440 340"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <radialGradient id="hg1" cx="25%" cy="60%" r="50%">
+              <stop offset="0%" stop-color="#ff6b6b" stop-opacity=".1" />
+              <stop offset="100%" stop-color="#ff6b6b" stop-opacity="0" />
+            </radialGradient>
+            <radialGradient id="hg2" cx="80%" cy="30%" r="45%">
+              <stop offset="0%" stop-color="#87ceeb" stop-opacity=".08" />
+              <stop offset="100%" stop-color="#87ceeb" stop-opacity="0" />
+            </radialGradient>
+          </defs>
+          <rect width="1440" height="340" fill="url(#hg1)" />
+          <rect width="1440" height="340" fill="url(#hg2)" />
+          <polygon
+            points="0,340 200,180 420,260 640,100 860,200 1080,60 1300,170 1440,90 1440,340"
+            fill="rgba(255,255,255,.022)"
+          />
+          <polygon
+            points="0,340 160,220 360,290 580,140 800,230 1020,80 1220,190 1440,110 1440,340"
+            fill="rgba(255,255,255,.014)"
+          />
+        </svg>
+      </div>
+      <div class="gal-hero-inner">
+        <div class="gal-hero-text">
+          <div class="gal-eyebrow">
+            <i class="fas fa-images"></i> Photo Gallery
+          </div>
+          <h1 class="gal-hero-title">
+            The <em>Mountain</em><br />Through Our Lens
+          </h1>
+          <p class="gal-hero-sub">
+            24 seasons, one mountain, infinite moments. Browse the best of
+            Alpine Adventures captured across every slope, cabin, and
+            unforgettable activity.
+          </p>
+          <div class="gal-hero-breadcrumb">
+            <a href="./Index.html">Home</a><span>›</span
+            ><span style="color: rgba(255, 255, 255, 0.5)">Gallery</span>
+          </div>
+        </div>
+        <div class="gal-hero-strip" id="heroStrip"></div>
+      </div>
+      <div class="gal-stat-bar">
+        <div class="gal-stat-bar-inner">
+          <div class="gal-stat">
+            <span class="gal-stat-num">24</span
+            ><span class="gal-stat-lbl">Photos</span>
+          </div>
+          <div class="gal-stat-divider"></div>
+          <div class="gal-stat">
+            <span class="gal-stat-num">7</span
+            ><span class="gal-stat-lbl">Categories</span>
+          </div>
+          <div class="gal-stat-divider"></div>
+          <div class="gal-stat">
+            <span class="gal-stat-num">4</span
+            ><span class="gal-stat-lbl">Seasons</span>
+          </div>
+          <div class="gal-stat-divider"></div>
+          <div class="gal-stat">
+            <span class="gal-stat-num">∞</span
+            ><span class="gal-stat-lbl">Memories</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ FILTER BAR ═══════════════════════════════ -->
+    <div class="filter-bar-wrap">
+      <div class="filter-bar">
+        <div class="filter-tabs" id="filterTabs">
+          <button
+            class="filter-tab active"
+            data-cat="All"
+            onclick="filterGallery(this)"
+          >
+            All <span class="filter-tab-count">24</span>
+          </button>
+          <button
+            class="filter-tab"
+            data-cat="Slopes"
+            onclick="filterGallery(this)"
+          >
+            <i class="fas fa-skiing" style="font-size: 0.7rem"></i> Slopes
+            <span class="filter-tab-count">6</span>
+          </button>
+          <button
+            class="filter-tab"
+            data-cat="Cabins"
+            onclick="filterGallery(this)"
+          >
+            <i class="fas fa-home" style="font-size: 0.7rem"></i> Cabins
+            <span class="filter-tab-count">5</span>
+          </button>
+          <button
+            class="filter-tab"
+            data-cat="Activities"
+            onclick="filterGallery(this)"
+          >
+            <i class="fas fa-snowflake" style="font-size: 0.7rem"></i>
+            Activities <span class="filter-tab-count">5</span>
+          </button>
+          <button
+            class="filter-tab"
+            data-cat="Dining"
+            onclick="filterGallery(this)"
+          >
+            <i class="fas fa-utensils" style="font-size: 0.7rem"></i> Dining
+            <span class="filter-tab-count">3</span>
+          </button>
+          <button
+            class="filter-tab"
+            data-cat="Spa"
+            onclick="filterGallery(this)"
+          >
+            <i class="fas fa-spa" style="font-size: 0.7rem"></i> Spa &amp;
+            Wellness <span class="filter-tab-count">3</span>
+          </button>
+          <button
+            class="filter-tab"
+            data-cat="Landscape"
+            onclick="filterGallery(this)"
+          >
+            <i class="fas fa-mountain" style="font-size: 0.7rem"></i> Landscape
+            <span class="filter-tab-count">2</span>
+          </button>
+        </div>
+        <div class="filter-controls">
+          <select class="gal-sort" id="galSort" onchange="applySortGal()">
+            <option value="default">Featured First</option>
+            <option value="newest">Newest</option>
+            <option value="liked">Most Liked</option>
+          </select>
+          <div class="layout-btns">
+            <button
+              class="layout-btn active"
+              id="masonryBtn"
+              onclick="setLayout('masonry')"
+              title="Masonry"
+            >
+              <i class="fas fa-border-all"></i>
+            </button>
+            <button
+              class="layout-btn"
+              id="gridBtn"
+              onclick="setLayout('grid')"
+              title="Uniform grid"
+            >
+              <i class="fas fa-th"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ GALLERY BODY ═════════════════════════════ -->
+    <div class="gallery-body">
+      <div class="gallery-meta">
+        <span class="gallery-result-count"
+          >Showing <strong id="visCount">24</strong> of
+          <strong>24</strong> photos</span
+        >
+      </div>
+      <div class="masonry-grid" id="masonryGrid"></div>
+      <div class="gallery-empty" id="galEmpty">
+        <i class="fas fa-camera-slash"></i>
+        <h3>No photos in this category yet</h3>
+        <p>Check back soon — we're always adding new shots.</p>
+      </div>
+      <div class="load-more-wrap">
+        <button
+          class="load-more-btn hidden"
+          id="loadMoreBtn"
+          onclick="loadMore()"
+        >
+          <i class="fas fa-plus"></i> Load More Photos
+        </button>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="gal-cta">
+      <div class="container">
+        <div class="gal-cta-inner">
+          <div class="gal-cta-text">
+            <h2>Ready to Create Your Own Memories?</h2>
+            <p>
+              Every photo in this gallery started with a single booking. Your
+              mountain story is waiting.
+            </p>
+          </div>
+          <button
+            class="gal-cta-btn"
+            onclick="location.href = './Booking.html'"
+          >
+            <i class="fas fa-calendar-check" style="margin-right: 8px"></i
+            >Reserve Your Stay
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" style="background: #0f0f0f">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>Stay Connected</h3>
+            <div class="newsletter">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                class="newsletter-input"
+              /><button class="newsletter-btn">Subscribe</button>
+            </div>
+          </div>
+          <div class="footer-section">
+            <h3>Explore</h3>
+            <ul>
+              <li><a href="./Index.html">Home</a></li>
+              <li><a href="./Packages.html">Packages</a></li>
+              <li><a href="./Accommodations.html">Accommodations</a></li>
+              <li><a href="./Booking.html">Book Now</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Location</h3>
+            <div class="location-info">
+              <p>Alpine Resort Mountain View, CO 80424</p>
+            </div>
+          </div>
+          <div class="footer-section">
+            <h3>Follow Us</h3>
+            <div class="footer-social">
+              <a href="#"><i class="fab fa-facebook"></i></a
+              ><a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a
+              ><a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 Alpine Adventures. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ═══════════════ LIGHTBOX ══════════════════════════════════ -->
+    <div class="lightbox" id="lightbox">
+      <div class="lb-top">
+        <div class="lb-top-left">
+          <div class="lb-logo"><i class="fas fa-mountain"></i>ALPINE</div>
+          <span class="lb-counter" id="lbCounter">1 / 24</span>
+        </div>
+        <div class="lb-top-right">
+          <button
+            class="lb-action-btn"
+            onclick="toggleLbInfo()"
+            title="Photo info"
+          >
+            <i class="fas fa-info-circle"></i>
+          </button>
+          <button class="lb-action-btn" title="Download (demo)">
+            <i class="fas fa-download"></i>
+          </button>
+          <button class="lb-action-btn" title="Share (demo)">
+            <i class="fas fa-share-alt"></i>
+          </button>
+          <button class="lb-action-btn lb-close-btn" onclick="closeLightbox()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <div class="lb-stage" id="lbStage">
+        <button class="lb-nav lb-prev" onclick="lbNavigate(-1)">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="lb-image-wrap" id="lbImageWrap">
+          <div id="lbImage"></div>
+          <div class="lb-caption-overlay">
+            <div class="lb-cat" id="lbCat"></div>
+            <div class="lb-title" id="lbTitle"></div>
+            <div class="lb-desc" id="lbDesc"></div>
+          </div>
+        </div>
+        <button class="lb-nav lb-next" onclick="lbNavigate(1)">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+        <div class="lb-info" id="lbInfo">
+          <div class="lb-info-card">
+            <div class="lb-info-label">Category</div>
+            <div class="lb-info-value" id="lbInfoCat">—</div>
+          </div>
+          <div class="lb-info-card">
+            <div class="lb-info-label">Location</div>
+            <div class="lb-info-value" id="lbInfoLoc">—</div>
+          </div>
+          <div class="lb-info-card">
+            <div class="lb-info-label">Season</div>
+            <div class="lb-info-value" id="lbInfoSeason">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="lb-filmstrip">
+        <div class="lb-filmstrip-track" id="lbFilmstrip"></div>
+      </div>
+    </div>
+   
+    <script src="./JS/gallery.js"></script>
+  </body>
+</html>
